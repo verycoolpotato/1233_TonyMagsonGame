@@ -5,8 +5,17 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/1233_GameProgramming/StudentWork/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/1233_GameProgramming/StudentWork/Scenes/GameRunScene.unity
+    guid: 6ca6c70b3ed226441b6c1ab233a42e3f
+  - enabled: 1
+    path: Assets/1233_GameProgramming/StudentWork/Scenes/World.unity
+    guid: 89b765077d60ebd46a83e06e243eba1c
+  - enabled: 1
+    path: Assets/1233_GameProgramming/StudentWork/Scenes/Character.unity
+    guid: 29a2af75e81ca6b44a18b48311d5f699
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
