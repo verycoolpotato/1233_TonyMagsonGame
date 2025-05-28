@@ -13,6 +13,7 @@ namespace StudentWork
 		public bool jump;
 		public bool sprint;
 		public bool crouch;
+		public bool Aim;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -48,9 +49,16 @@ namespace StudentWork
 		{
 			SprintInput(value.isPressed);
 		}
+		public void OnAim(InputValue value)
+		{
+			AimInput(value.isPressed);
+		}
 #endif
 
-
+		public void AimInput(bool newAimState)
+		{
+			Aim = newAimState;
+		}
 		public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;

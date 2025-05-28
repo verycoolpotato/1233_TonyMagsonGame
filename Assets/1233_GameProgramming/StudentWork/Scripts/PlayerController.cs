@@ -104,8 +104,10 @@ namespace StudentWork
 #endif
         private Animator _animator;
         private CharacterController _controller;
-        private PlayerInputs _input;
-        private GameObject _mainCamera;
+        [SerializeField] private PlayerInputs _input;
+
+        [SerializeField] private GameObject _mainCamera;
+        [SerializeField] private GameObject _aimCamera;
 
         private const float _threshold = 0.01f;
 
@@ -161,6 +163,7 @@ namespace StudentWork
             GroundedCheck();
             Move();
             Crouch();
+            AimState(_input.Aim);
         }
 
         private void LateUpdate()
@@ -212,6 +215,21 @@ namespace StudentWork
             // Cinemachine will follow this target
             CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
                 _cinemachineTargetYaw, 0.0f);
+        }
+        //Swaps to aiming camera when recieving aim input
+        private void AimState(bool isAiming)
+        {
+            if (isAiming)
+            {
+               _aimCamera.gameObject.SetActive(true);
+               _mainCamera.gameObject.SetActive(false);
+            }
+            else
+            {
+                _aimCamera.gameObject.SetActive(false);
+                _mainCamera.gameObject.SetActive(true);
+            }
+
         }
 
         private void Move()
