@@ -75,14 +75,18 @@ namespace StudentWork
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        [Header("Cameras")]
+
         [Tooltip("Player Standard Camera")]
         [SerializeField] private GameObject _mainCamera;
 
         [Tooltip("Player Camera when aiming")]
         [SerializeField] private GameObject _aimCamera;
 
-        
+        [Tooltip("Main Camera (Always Active)")]
+        [SerializeField] private Camera _camera;
 
+       
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -116,6 +120,9 @@ namespace StudentWork
         private Animator _animator;
         private CharacterController _controller;
         [SerializeField] private PlayerInputs _input;
+
+        //Disables standard player rotation while walking
+        public bool Strafing;
 
       
 
@@ -230,7 +237,10 @@ namespace StudentWork
         private void AimState(bool AimButton)
         {
             _aimCamera.SetActive(AimButton);
+
         }
+
+        
        
         private void Move()
         {
@@ -272,19 +282,20 @@ namespace StudentWork
             // normalise input direction
             Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
-            // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is a move input rotate player when the player is moving
-            if (_input.move != Vector2.zero)
-            {
+           
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _camera.transform.eulerAngles.y, ref _rotationVelocity,
                     RotationSmoothTime);
 
-                // rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            }
-
+               
+              
+                    // rotate to face input direction relative to camera position
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                
+               
+            
+           
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
@@ -304,9 +315,7 @@ namespace StudentWork
             if (Grounded && _hasAnimator)
             {
                 _animator.SetBool(_animIDCrouch, _input.Crouch);
-
             }
-            
         }
         private void JumpAndGravity()
         {
