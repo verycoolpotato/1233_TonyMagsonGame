@@ -111,6 +111,8 @@ namespace StudentWork
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
         private int _animIDCrouch;
+        private int _animAxisX;
+        private int _animAxisZ;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -196,6 +198,8 @@ namespace StudentWork
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
             _animIDCrouch = Animator.StringToHash("Crouch");
+            _animAxisX = Animator.StringToHash("X");
+            _animAxisZ = Animator.StringToHash("Z");
         }
 
         private void GroundedCheck()
@@ -285,11 +289,12 @@ namespace StudentWork
            
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
+
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _camera.transform.eulerAngles.y, ref _rotationVelocity,
                     RotationSmoothTime);
 
                
-              
+                
                     // rotate to face input direction relative to camera position
                     transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 
@@ -308,6 +313,10 @@ namespace StudentWork
             {
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+               
+
+                _animator.SetFloat(_animAxisX,inputDirection.x);
+                _animator.SetFloat(_animAxisZ, inputDirection.z);
             }
         }
         private void Crouch()
