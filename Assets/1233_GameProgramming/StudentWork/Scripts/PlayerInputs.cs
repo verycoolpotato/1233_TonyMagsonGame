@@ -12,8 +12,9 @@ namespace StudentWork
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
-		public bool crouch;
+		public bool Crouch;
 		public bool Aim;
+		public bool Shoot;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -40,9 +41,9 @@ namespace StudentWork
 		{
 			JumpInput(value.isPressed);
 		}
-		public void OnCrouch()
+		public void OnCrouch(InputValue value)
 		{
-			crouch = !crouch;
+			CrouchInput();
 		}
 
 		public void OnSprint(InputValue value)
@@ -53,11 +54,23 @@ namespace StudentWork
 		{
 			AimInput(value.isPressed);
 		}
-#endif
+		public void OnShoot(InputValue value)
+		{
+			ShootInput(value.isPressed);
+		}
 
+#endif
+		public void CrouchInput()
+		{
+			Crouch = !Crouch;
+		}
 		public void AimInput(bool newAimState)
 		{
 			Aim = newAimState;
+		}
+		public void ShootInput(bool newShootState)
+		{
+			Shoot = newShootState;	
 		}
 		public void MoveInput(Vector2 newMoveDirection)
 		{

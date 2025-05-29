@@ -75,6 +75,15 @@ namespace StudentWork
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        [Tooltip("Player Standard Camera")]
+        [SerializeField] private GameObject _mainCamera;
+
+        [Tooltip("Player Camera when aiming")]
+        [SerializeField] private GameObject _aimCamera;
+
+        
+
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -102,12 +111,13 @@ namespace StudentWork
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
 #endif
+
+
         private Animator _animator;
         private CharacterController _controller;
         [SerializeField] private PlayerInputs _input;
 
-        [SerializeField] private GameObject _mainCamera;
-        [SerializeField] private GameObject _aimCamera;
+      
 
         private const float _threshold = 0.01f;
 
@@ -217,21 +227,11 @@ namespace StudentWork
                 _cinemachineTargetYaw, 0.0f);
         }
         //Swaps to aiming camera when recieving aim input
-        private void AimState(bool isAiming)
+        private void AimState(bool AimButton)
         {
-            if (isAiming)
-            {
-               _aimCamera.gameObject.SetActive(true);
-               _mainCamera.gameObject.SetActive(false);
-            }
-            else
-            {
-                _aimCamera.gameObject.SetActive(false);
-                _mainCamera.gameObject.SetActive(true);
-            }
-
+            _aimCamera.SetActive(AimButton);
         }
-
+       
         private void Move()
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
@@ -303,7 +303,7 @@ namespace StudentWork
         {
             if (Grounded && _hasAnimator)
             {
-                _animator.SetBool(_animIDCrouch, _input.crouch);
+                _animator.SetBool(_animIDCrouch, _input.Crouch);
 
             }
             
