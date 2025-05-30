@@ -241,7 +241,6 @@ namespace StudentWork
         private void AimState(bool AimButton)
         {
             _aimCamera.SetActive(AimButton);
-
         }
 
         
@@ -286,17 +285,18 @@ namespace StudentWork
             // normalise input direction
             Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
-           
+            //determine direction to move
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
 
+            //rotation player should be facing
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _camera.transform.eulerAngles.y, ref _rotationVelocity,
                     RotationSmoothTime);
 
                
                 
-                    // rotate to face input direction relative to camera position
-                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            // rotate to face input direction relative to camera position
+             transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 
                
             
