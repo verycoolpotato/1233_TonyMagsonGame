@@ -313,10 +313,9 @@ namespace StudentWork
             {
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-               
 
-                _animator.SetFloat(_animAxisX,inputDirection.x);
-                _animator.SetFloat(_animAxisZ, inputDirection.z);
+                _animator.SetFloat(_animAxisX, inputDirection.x, 0.1f, Time.deltaTime);
+                _animator.SetFloat(_animAxisZ, inputDirection.z, 0.1f, Time.deltaTime);
             }
         }
         private void Crouch()

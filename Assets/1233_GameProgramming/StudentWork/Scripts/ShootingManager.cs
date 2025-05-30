@@ -18,17 +18,22 @@ namespace StudentWork
         {
             CanShoot();
         }
+
+        //check if player is pressing aim and shoot
         private void CanShoot()
         {
            if(_input.Aim && _input.Shoot)
            {
-               Shoot(SnowballPrefab);
-               _input.Shoot = false;
+               
+                Shoot(SnowballPrefab);
+                _input.Shoot = false;
+
             }
         }
 
         private void Shoot(GameObject projectile)
-        { 
+        {
+            
             //Instantiate a projectile with name clone at camera position
             GameObject Clone = Instantiate(projectile,_camera.transform.position, Quaternion.identity);
 
