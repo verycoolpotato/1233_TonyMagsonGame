@@ -118,6 +118,7 @@ namespace StudentWork
         private int _animAxisX;
         private int _animAxisZ;
         private int _animIDRunning;
+       
 
 #if ENABLE_INPUT_SYSTEM
        [SerializeField] private PlayerInput _playerInput;
@@ -182,6 +183,7 @@ namespace StudentWork
 
         private void AssignAnimationIDs()
         {
+            
             _animIDRunning = Animator.StringToHash("Running");
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
@@ -232,11 +234,13 @@ namespace StudentWork
         private void AimState(bool AimButton)
         {
             _aimCamera.SetActive(AimButton);
+            
         }
 
      
         private void Move()
         {
+           
             // set target speed based on Move speed, Sprint speed and if Sprint is pressed
             float targetSpeed = _input.Sprint ? SprintSpeed : MoveSpeed;
 

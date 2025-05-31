@@ -17,10 +17,16 @@ namespace StudentWork
         [Tooltip("Player input reference")]
         [SerializeField] private PlayerInputs _input;
 
+        [Tooltip("This Animator")]
+        [SerializeField] private Animator _animator;
+
         private Camera _camera;
+
+        private int _animIDThrow;
 
         private void Awake()
         {
+            _animIDThrow = Animator.StringToHash("Throw");
             _camera = Camera.main;
         }
         private void Update()
@@ -33,9 +39,11 @@ namespace StudentWork
         {
            if(_input.Aim && _input.Shoot)
            {
-               
+
+                _animator.SetTrigger(_animIDThrow);
                 Shoot(SnowballPrefab);
                 _input.Shoot = false;
+                
 
             }
         }
@@ -52,6 +60,7 @@ namespace StudentWork
 
           //Delete clone after 3 seconds
             Destroy(Clone,3f);
+            
         }
     }
 
