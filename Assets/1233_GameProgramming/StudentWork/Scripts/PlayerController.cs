@@ -33,14 +33,14 @@ namespace StudentWork
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
 
         [Space(10)]
-        [Tooltip("The height the player can jump")]
+        [Tooltip("The height the player can Jump")]
         public float JumpHeight = 1.2f;
 
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
         public float Gravity = -15.0f;
 
         [Space(10)]
-        [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
+        [Tooltip("Time required to pass before being able to Jump again. Set to 0f to instantly Jump again")]
         public float JumpTimeout = 0.50f;
 
         [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
@@ -63,10 +63,10 @@ namespace StudentWork
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
         public GameObject CinemachineCameraTarget;
 
-        [Tooltip("How far in degrees can you move the camera up")]
+        [Tooltip("How far in degrees can you Move the camera up")]
         public float TopClamp = 70.0f;
 
-        [Tooltip("How far in degrees can you move the camera down")]
+        [Tooltip("How far in degrees can you Move the camera down")]
         public float BottomClamp = -30.0f;
 
         [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
@@ -86,7 +86,11 @@ namespace StudentWork
         [Tooltip("Main Camera (Always Active)")]
         [SerializeField] private Camera _camera;
 
-       
+        [Tooltip("This Animator")]
+        [SerializeField] private Animator _animator;
+
+        [Tooltip("This Character Controller")]
+        [SerializeField] private CharacterController _controller;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -116,12 +120,12 @@ namespace StudentWork
         private int _animIDRunning;
 
 #if ENABLE_INPUT_SYSTEM
-        private PlayerInput _playerInput;
+       [SerializeField] private PlayerInput _playerInput;
 #endif
 
 
-        private Animator _animator;
-        private CharacterController _controller;
+      
+      
         [SerializeField] private PlayerInputs _input;
 
         //Disables standard player rotation while walking
@@ -146,27 +150,12 @@ namespace StudentWork
         }
 
 
-        private void Awake()
-        {
-            // get a reference to our main camera
-            if (_mainCamera == null)
-            {
-                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            }
-        }
 
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
             _hasAnimator = TryGetComponent(out _animator);
-            _controller = GetComponent<CharacterController>();
-            _input = GetComponent<PlayerInputs>();
-#if ENABLE_INPUT_SYSTEM
-            _playerInput = GetComponent<PlayerInput>();
-#else
-			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
-#endif
 
             AssignAnimationIDs();
 
@@ -222,13 +211,13 @@ namespace StudentWork
         private void CameraRotation()
         {
             // if there is an input and camera position is not fixed
-            if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
+            if (_input.Look.sqrMagnitude >= _threshold && !LockCameraPosition)
             {
                 //Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                _cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-                _cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
+                _cinemachineTargetYaw += _input.Look.x * deltaTimeMultiplier;
+                _cinemachineTargetPitch += _input.Look.y * deltaTimeMultiplier;
             }
 
             // clamp our rotations so our values are limited 360 degrees
@@ -245,27 +234,26 @@ namespace StudentWork
             _aimCamera.SetActive(AimButton);
         }
 
-        
-       
+     
         private void Move()
         {
-            // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            // set target speed based on Move speed, Sprint speed and if Sprint is pressed
+            float targetSpeed = _input.Sprint ? SprintSpeed : MoveSpeed;
 
-            _animator.SetBool(_animIDRunning, _input.sprint);
+            _animator.SetBool(_animIDRunning, _input.Sprint);
 
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+            if (_input.Move == Vector2.zero) targetSpeed = 0.0f;
 
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
             float speedOffset = 0.1f;
-            float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
+            float inputMagnitude = _input.analogMovement ? _input.Move.magnitude : 1f;
 
             // accelerate or decelerate to target speed
             if (currentHorizontalSpeed < targetSpeed - speedOffset ||
@@ -288,18 +276,18 @@ namespace StudentWork
             if (_animationBlend < 0.01f) _animationBlend = 0f;
 
             // normalise input direction
-            Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+            Vector3 inputDirection = new Vector3(_input.Move.x, 0.0f, _input.Move.y).normalized;
 
-            //determine direction to move
+            //determine direction to Move
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
 
             
             
-            //switch player rotation target when sprinting
+            //switch player rotation target when performing certain actions
             float LookDirection;
 
-            if (_input.sprint)
+            if (_input.Sprint || _input.Crouch)
                 LookDirection = _targetRotation;
             else
                 LookDirection = _camera.transform.rotation.eulerAngles.y;
@@ -315,13 +303,10 @@ namespace StudentWork
             // rotate to face input direction relative to camera position
              transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 
-               
-            
-           
-
+        
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
-            // move the player
+            // Move the player
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
@@ -363,7 +348,7 @@ namespace StudentWork
                 }
 
                 // Jump
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+                if (_input.Jump && _jumpTimeoutDelta <= 0.0f)
                 {
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
@@ -375,7 +360,7 @@ namespace StudentWork
                     }
                 }
 
-                // jump timeout
+                // Jump timeout
                 if (_jumpTimeoutDelta >= 0.0f)
                 {
                     _jumpTimeoutDelta -= Time.deltaTime;
@@ -383,7 +368,7 @@ namespace StudentWork
             }
             else
             {
-                // reset the jump timeout timer
+                // reset the Jump timeout timer
                 _jumpTimeoutDelta = JumpTimeout;
 
                 // fall timeout
@@ -400,8 +385,8 @@ namespace StudentWork
                     }
                 }
 
-                // if we are not grounded, do not jump
-                _input.jump = false;
+                // if we are not grounded, do not Jump
+                _input.Jump = false;
             }
 
             // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)

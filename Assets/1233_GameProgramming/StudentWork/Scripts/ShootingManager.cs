@@ -6,14 +6,23 @@ namespace StudentWork
 { 
     public class ShootingManager : MonoBehaviour
     {
-        [SerializeField] private GameObject SnowballPrefab;
-        [SerializeField] private PlayerInputs _input;
+        [Header("Projectile Settings")]
 
+        [Tooltip("Primary thrown projectile")]
+        [SerializeField] private GameObject SnowballPrefab;
+
+        [Tooltip("Projectile throw force (speed)")]
         [SerializeField] private float throwForce;
 
-        [SerializeField] private Camera _camera;
+        [Tooltip("Player input reference")]
+        [SerializeField] private PlayerInputs _input;
 
+        private Camera _camera;
 
+        private void Awake()
+        {
+            _camera = Camera.main;
+        }
         private void Update()
         {
             CanShoot();

@@ -8,10 +8,10 @@ namespace StudentWork
 	public class PlayerInputs : MonoBehaviour
 	{
 		[Header("Character Input Values")]
-		public Vector2 move;
-		public Vector2 look;
-		public bool jump;
-		public bool sprint;
+		public Vector2 Move;
+		public Vector2 Look;
+		public bool Jump;
+		public bool Sprint;
 		public bool Crouch;
 		public bool Aim;
 		public bool Shoot;
@@ -74,22 +74,22 @@ namespace StudentWork
 		}
 		public void MoveInput(Vector2 newMoveDirection)
 		{
-			move = newMoveDirection;
+			Move = newMoveDirection;
 		} 
 
 		public void LookInput(Vector2 newLookDirection)
 		{
-			look = newLookDirection;
+			Look = newLookDirection;
 		}
 
 		public void JumpInput(bool newJumpState)
 		{
-			jump = newJumpState;
+			Jump = newJumpState;
 		}
         
         public void SprintInput(bool newSprintState)
 		{
-			sprint = newSprintState;
+			Sprint = newSprintState;
 		}
 		
 		private void OnApplicationFocus(bool hasFocus)
