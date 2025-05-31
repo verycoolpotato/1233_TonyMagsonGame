@@ -21,18 +21,7 @@ namespace StudentWork
             crosshair.enabled = _input.Aim;
         }
 
-
-
-
-
-
-
-
-
-
-
     }
-
 
 }
 

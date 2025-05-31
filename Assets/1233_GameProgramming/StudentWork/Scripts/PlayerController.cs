@@ -113,6 +113,7 @@ namespace StudentWork
         private int _animIDCrouch;
         private int _animAxisX;
         private int _animAxisZ;
+        private int _animIDRunning;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -192,6 +193,7 @@ namespace StudentWork
 
         private void AssignAnimationIDs()
         {
+            _animIDRunning = Animator.StringToHash("Running");
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
             _animIDJump = Animator.StringToHash("Jump");
@@ -250,6 +252,9 @@ namespace StudentWork
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
+            _animator.SetBool(_animIDRunning, _input.sprint);
+
+
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
@@ -289,8 +294,20 @@ namespace StudentWork
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
 
-            //rotation player should be facing
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _camera.transform.eulerAngles.y, ref _rotationVelocity,
+            
+            
+            //switch player rotation target when sprinting
+            float LookDirection;
+
+            if (_input.sprint)
+                LookDirection = _targetRotation;
+            else
+                LookDirection = _camera.transform.rotation.eulerAngles.y;
+            
+
+
+                //rotation player should be facing
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, LookDirection, ref _rotationVelocity,
                     RotationSmoothTime);
 
                
