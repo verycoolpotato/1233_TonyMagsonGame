@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6266018833429733502}
   - component: {fileID: 437919177373745029}
   - component: {fileID: -7659424744878742827}
+  - component: {fileID: 1671327707605308098}
   m_Layer: 3
   m_Name: Snowball
   m_TagString: Projectile
@@ -63,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7f2c444d555ba5443bbc35ca1636d712, type: 2}
+  - {fileID: -6527670528093515950, guid: d0a9bfb4b5f28174884e89dd76563ae8, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,7 +115,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4782568924342100054}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 6
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -132,4 +133,19 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
+--- !u!114 &1671327707605308098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4782568924342100054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6872c796542eaad41af40a7d28d5a942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockback: 0
+  rb: {fileID: -7659424744878742827}
+  hitParticle: {fileID: 3224475533480090618, guid: 22479b75f5871d14cbe32ab891488449, type: 3}

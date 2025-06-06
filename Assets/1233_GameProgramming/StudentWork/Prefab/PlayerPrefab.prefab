@@ -279,9 +279,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc6a296b99b4a347a904816a3d35847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitParticle: {fileID: 3224475533480090618, guid: 22479b75f5871d14cbe32ab891488449, type: 3}
   SnowballPrefab: {fileID: 4782568924342100054, guid: b9a2088c3369f7a4d9773f5e21ec4a6c, type: 3}
-  throwForce: 100
+  throwForce: 300
   _input: {fileID: 5607905882524977921}
+  _animator: {fileID: 3897532338589654595}
+  fireType: 0
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 7
 --- !u!114 &3286957681951369187
 MonoBehaviour:
   m_ObjectHideFlags: 0
