@@ -509,9 +509,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.058192223
-  m_TransitionOffset: 0.031137634
-  m_ExitTime: 0.1266246
+  m_TransitionDuration: 0.15082109
+  m_TransitionOffset: 0.022226527
+  m_ExitTime: 0.03526637
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -678,9 +678,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.014089141
+  m_TransitionDuration: 0.108643584
   m_TransitionOffset: 0
-  m_ExitTime: 0.02414146
+  m_ExitTime: 0.024141459
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -694,7 +694,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Throw
-  m_Speed: 3
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3017984902449293762}
