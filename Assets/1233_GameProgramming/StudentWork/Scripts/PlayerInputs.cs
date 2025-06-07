@@ -39,7 +39,7 @@ namespace StudentWork
 
 		public void OnJump(InputValue value)
 		{
-			JumpInput(value.isPressed);
+			//JumpInput(value.isPressed);
 		}
 		public void OnCrouch(InputValue value)
 		{

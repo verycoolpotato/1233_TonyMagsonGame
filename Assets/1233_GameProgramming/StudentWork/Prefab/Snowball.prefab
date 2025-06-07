@@ -146,6 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6872c796542eaad41af40a7d28d5a942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockback: 0
+  knockback: 1
   rb: {fileID: -7659424744878742827}
   hitParticle: {fileID: 3224475533480090618, guid: 22479b75f5871d14cbe32ab891488449, type: 3}
