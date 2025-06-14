@@ -58,13 +58,13 @@ ModelImporter:
       curves: []
       events:
       - time: 0.55504584
-        functionName: shotCheck
+        functionName: ProjectileShot
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: abc6a296b99b4a347a904816a3d35847, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.8344672
+      - time: 0.7475107
         functionName: InputQueue
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: abc6a296b99b4a347a904816a3d35847, type: 3}
@@ -85,9 +85,9 @@ ModelImporter:
       - path: Hair
         weight: 1
       - path: mixamorig:Hips
-        weight: 1
+        weight: 0
       - path: mixamorig:Hips/mixamorig:LeftUpLeg
-        weight: 1
+        weight: 0
       - path: mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg
         weight: 1
       - path: mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg/mixamorig:LeftFoot
@@ -97,7 +97,7 @@ ModelImporter:
       - path: mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg/mixamorig:LeftFoot/mixamorig:LeftToeBase/mixamorig:LeftToe_End
         weight: 1
       - path: mixamorig:Hips/mixamorig:RightUpLeg
-        weight: 1
+        weight: 0
       - path: mixamorig:Hips/mixamorig:RightUpLeg/mixamorig:RightLeg
         weight: 1
       - path: mixamorig:Hips/mixamorig:RightUpLeg/mixamorig:RightLeg/mixamorig:RightFoot
@@ -107,7 +107,7 @@ ModelImporter:
       - path: mixamorig:Hips/mixamorig:RightUpLeg/mixamorig:RightLeg/mixamorig:RightFoot/mixamorig:RightToeBase/mixamorig:RightToe_End
         weight: 1
       - path: mixamorig:Hips/mixamorig:Spine
-        weight: 1
+        weight: 0
       - path: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1
         weight: 1
       - path: mixamorig:Hips/mixamorig:Spine/mixamorig:Spine1/mixamorig:Spine2

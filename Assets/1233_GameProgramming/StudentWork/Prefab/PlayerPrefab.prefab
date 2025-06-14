@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5607905882524977921}
   - component: {fileID: 3597619362450688842}
   - component: {fileID: 3286957681951369187}
+  - component: {fileID: 436315099860837554}
   m_Layer: 6
   m_Name: PlayerArmature
   m_TagString: Player
@@ -286,10 +287,6 @@ MonoBehaviour:
   _input: {fileID: 5607905882524977921}
   _animator: {fileID: 3897532338589654595}
   ThrowPos: {fileID: 309414335116497053}
-  fireType: 0
-  raycastMask:
-    serializedVersion: 2
-    m_Bits: 7
 --- !u!114 &3286957681951369187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,6 +301,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crosshair: {fileID: 7758018931764110963}
   _input: {fileID: 5607905882524977921}
+--- !u!114 &436315099860837554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70224479303888030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72baa78c3e5a4cc498162a3b76aedfb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &866759589012716269
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,7 +444,7 @@ Transform:
   m_GameObject: {fileID: 3601661896161718922}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.48, y: 1.717, z: 0.284}
+  m_LocalPosition: {x: 0.48, y: 1.789, z: 0.284}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -586,7 +595,7 @@ GameObject:
   - component: {fileID: 2121875317336632244}
   m_Layer: 6
   m_Name: PlayerPrefab
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
