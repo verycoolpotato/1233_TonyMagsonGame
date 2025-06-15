@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class SnowmanMover : MonoBehaviour
 {
+    [SerializeField] public float knockback {  get; private set; }
     
     [SerializeField] private NavMeshAgent navMeshAgent;
 
