@@ -167,6 +167,8 @@ namespace StudentWork
 
         private void Update()
         {
+            
+
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();
@@ -209,7 +211,7 @@ namespace StudentWork
                 _animator.SetBool(_animIDGrounded, Grounded);
             }
         }
-
+       
         private void CameraRotation()
         {
             // if there is an input and camera position is not fixed
@@ -255,6 +257,8 @@ namespace StudentWork
 
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+
+           
 
             float speedOffset = 0.1f;
             float inputMagnitude = _input.analogMovement ? _input.Move.magnitude : 1f;
@@ -311,6 +315,7 @@ namespace StudentWork
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
             // Move the player
+            if(_controller.enabled)
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                              new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 

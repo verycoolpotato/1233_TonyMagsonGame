@@ -11,18 +11,16 @@ public class KnockbackManager : MonoBehaviour
     //Distance the character flies when hit
     [SerializeField] public float knockbackPercentage = 0f;
 
+    //knocks character back based on given strength
     public void damaged(Collision collision, float knockback)
     {
       
         knockbackPercentage += knockback;
 
-
+        
         Vector3 knockbackDirection = -collision.GetContact(0).normal.normalized;
         float knockbackForce = 1 + knockbackPercentage;
         rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
 
-        
-
-        Destroy(collision.gameObject);
     }
 }

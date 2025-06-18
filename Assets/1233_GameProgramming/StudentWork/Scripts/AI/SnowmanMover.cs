@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class SnowmanMover : MonoBehaviour
 {
-    [SerializeField] public float knockback {  get; private set; }
+    [SerializeField] public float knockback;
     
     [SerializeField] private NavMeshAgent navMeshAgent;
 
@@ -16,7 +16,7 @@ public class SnowmanMover : MonoBehaviour
             navMeshAgent.destination = PlayerLocatorSingleton.Instance.transform.position;
         }
        
-        
+       
 
         
 
