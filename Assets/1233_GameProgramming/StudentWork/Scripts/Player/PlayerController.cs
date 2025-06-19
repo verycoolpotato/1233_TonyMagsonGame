@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace StudentWork
 {
-    [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(Rigidbody))]
 #if ENABLE_INPUT_SYSTEM
     [RequireComponent(typeof(PlayerInput))]
 #endif
@@ -89,8 +89,8 @@ namespace StudentWork
         [Tooltip("This Animator")]
         [SerializeField] private Animator _animator;
 
-        [Tooltip("This Character Controller")]
-        [SerializeField] private CharacterController _controller;
+        [Tooltip("This Rigidbody")]
+        [SerializeField] private Rigidbody _rb;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -151,7 +151,7 @@ namespace StudentWork
         }
 
 
-        //THIS NOTE ONLY SHOWS ON THE BRANCH
+        
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
@@ -171,10 +171,10 @@ namespace StudentWork
 
             _hasAnimator = TryGetComponent(out _animator);
 
-            JumpAndGravity();
-            GroundedCheck();
+            
+           
             Move();
-            Crouch();
+            
             AimState(_input.Aim);
         }
 
@@ -197,20 +197,7 @@ namespace StudentWork
             _animAxisZ = Animator.StringToHash("Z");
         }
 
-        private void GroundedCheck()
-        {
-            // set sphere position, with offset
-            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset,
-                transform.position.z);
-            Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
-                QueryTriggerInteraction.Ignore);
-
-            // update animator if using character
-            if (_hasAnimator)
-            {
-                _animator.SetBool(_animIDGrounded, Grounded);
-            }
-        }
+       
        
         private void CameraRotation()
         {
@@ -256,7 +243,7 @@ namespace StudentWork
             if (_input.Move == Vector2.zero) targetSpeed = 0.0f;
 
             // a reference to the players current horizontal velocity
-            float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+            float currentHorizontalSpeed = new Vector3(_rb.velocity.x, 0.0f, _rb.velocity.z).magnitude;
 
            
 
@@ -315,9 +302,13 @@ namespace StudentWork
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
             // Move the player
-            if(_controller.enabled)
-            _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+
+           
+
+             //Clamp velocity
+            
+
+            //_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
             // update animator if using character
             if (_hasAnimator)
@@ -329,81 +320,8 @@ namespace StudentWork
                 _animator.SetFloat(_animAxisZ, inputDirection.z, 0.1f, Time.deltaTime);
             }
         }
-        private void Crouch()
-        {
-            if (Grounded && _hasAnimator)
-            {
-                _animator.SetBool(_animIDCrouch, _input.Crouch);
-            }
-        }
-        private void JumpAndGravity()
-        {
-            if (Grounded)
-            {
-                // reset the fall timeout timer
-                _fallTimeoutDelta = FallTimeout;
-
-                // update animator if using character
-                if (_hasAnimator)
-                {
-                    _animator.SetBool(_animIDJump, false);
-                    _animator.SetBool(_animIDFreeFall, false);
-                }
-
-                // stop our velocity dropping infinitely when grounded
-                if (_verticalVelocity < 0.0f)
-                {
-                    _verticalVelocity = -2f;
-                }
-
-                // Jump
-                if (_input.Jump && _jumpTimeoutDelta <= 0.0f)
-                {
-                    // the square root of H * -2 * G = how much velocity needed to reach desired height
-                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
-                    // update animator if using character
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDJump, true);
-                    }
-                }
-
-                // Jump timeout
-                if (_jumpTimeoutDelta >= 0.0f)
-                {
-                    _jumpTimeoutDelta -= Time.deltaTime;
-                }
-            }
-            else
-            {
-                // reset the Jump timeout timer
-                _jumpTimeoutDelta = JumpTimeout;
-
-                // fall timeout
-                if (_fallTimeoutDelta >= 0.0f)
-                {
-                    _fallTimeoutDelta -= Time.deltaTime;
-                }
-                else
-                {
-                    // update animator if using character
-                    if (_hasAnimator)
-                    {
-                        _animator.SetBool(_animIDFreeFall, true);
-                    }
-                }
-
-                // if we are not grounded, do not Jump
-                _input.Jump = false;
-            }
-
-            // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-            if (_verticalVelocity < _terminalVelocity)
-            {
-                _verticalVelocity += Gravity * Time.deltaTime;
-            }
-        }
+       
+        
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
         {
@@ -435,7 +353,7 @@ namespace StudentWork
                 if (FootstepAudioClips.Length > 0)
                 {
                     var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_rb.transform.position), FootstepAudioVolume);
                 }
             }
         }
@@ -444,7 +362,7 @@ namespace StudentWork
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_rb.transform.position), FootstepAudioVolume);
             }
         }
     }
