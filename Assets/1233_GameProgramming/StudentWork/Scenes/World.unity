@@ -683,7 +683,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2407098252663767098, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
       propertyPath: chargeSpeed
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2407098252663767098, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
       propertyPath: rotateSpeed
@@ -691,7 +691,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2407098252663767098, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
       propertyPath: strafeSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2407098252663767098, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
+      propertyPath: stateDuration
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2407098252663767098, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
+      propertyPath: stateDurationMultiplier
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2821345355348447653, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
       propertyPath: m_Drag
