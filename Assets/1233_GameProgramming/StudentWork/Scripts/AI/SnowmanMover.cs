@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class SnowmanMover : MonoBehaviour
 {
    
+    //all possible ai states
     private enum AIStates
     {
         Charge,
@@ -28,29 +29,46 @@ public class SnowmanMover : MonoBehaviour
     [Tooltip("Multiplies the duration of each state (Default is 10)")]
     [SerializeField] private float stateDurationMultiplier = 10;
 
+    [SerializeField] private Animator _animator; 
+
     //How long the state lasts
     private float stateDuration = 0.4f;
 
     private Vector3 targetPos;
+    private Vector3 MoveDirection;
+
+    private int _animAxisX;
+    private int _animAxisZ;
 
     private void Start()
     {
+        //Randomise state every x seconds
         InvokeRepeating(nameof(ShuffleState), 1,stateDuration * stateDurationMultiplier);
+
         _agent.updateRotation = false;
     }
     private void Update()
     {
+        AnimateCharacter();
+        SetAnimID();
+
         StateSwitcher();
         targetPos = PlayerLocatorSingleton.Instance.transform.position;
         FacePlayer();
     }
-
+    private void SetAnimID()
+    {
+        _animAxisX = Animator.StringToHash("X");
+        _animAxisZ = Animator.StringToHash("Z");
+    }
+    //Randomise state when called - CHANGE LATER TO ALLOW CUSTOM WEIGHT VALUES FOR STATES
     private void ShuffleState()
     {
       int newState = Random.Range(0, 3);
         state = (AIStates)newState;
     }
 
+    //Rotate towards player
     private void FacePlayer()
     {
         Vector3 LookPos = targetPos - transform.position;
@@ -59,6 +77,7 @@ public class SnowmanMover : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation,rotation,Time.deltaTime * rotateSpeed);
     }
 
+    //Prevent multiple states from being active
     private void StateSwitcher()
     {
         if (PlayerLocatorSingleton.Instance != null && _agent.enabled)
@@ -76,10 +95,15 @@ public class SnowmanMover : MonoBehaviour
                 case AIStates.StrafeRight:
                     StrafeState(-1);
                     break;
+
+                case AIStates.Block:
+                    Block();
+                    break;
             }
         }
     }
 
+    //Run towards player
     private void ChargeState()
     {
             _agent.destination = targetPos;
@@ -87,8 +111,11 @@ public class SnowmanMover : MonoBehaviour
 
 
         stateDuration = 0.5f;
+
+        MoveDirection = Vector3.forward;
     }
 
+    //strafe left or right, direction is determined by strafeDir which is set to either 1 or -1
     private void StrafeState(float strafeDir)
     {
         var dir = Vector3.Cross(targetPos - transform.position, Vector3.up);
@@ -97,10 +124,25 @@ public class SnowmanMover : MonoBehaviour
         _agent.speed = strafeSpeed;
 
         stateDuration = 0.08f;
+        MoveDirection.x = strafeDir;
+    }
 
+
+    private void Block()
+    {
+
+
+        stateDuration = 0.1f;
     }
    
    
-
-
+    public void KnockedBack()
+    {
+        state = AIStates.Block;
+    }
+    private void AnimateCharacter()
+    {
+        _animator.SetFloat(_animAxisX, MoveDirection.x, 0.1f, Time.deltaTime);
+        _animator.SetFloat(_animAxisZ, MoveDirection.z, 0.1f, Time.deltaTime);
+    }
 }

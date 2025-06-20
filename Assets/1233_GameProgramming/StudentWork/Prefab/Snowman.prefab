@@ -47,7 +47,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2
+  m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -67,7 +67,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6578537966939445309}
   serializedVersion: 4
-  m_Mass: 10
+  m_Mass: 20
   m_Drag: 1
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -105,10 +105,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.5523036
   m_Height: 1.845176
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9118656, z: 0}
+  m_Center: {x: 0.0049319863, y: 0.9118656, z: 0}
 --- !u!114 &5125647307398477673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,8 +137,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1effd170cfec10b419fdf3237fae74ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockback: 2
-  navMeshAgent: {fileID: 2365620133187888045}
+  rotateSpeed: 5
+  chargeSpeed: 7
+  strafeSpeed: 5
+  state: 2
+  knockback: 10
+  _agent: {fileID: 2365620133187888045}
+  stateDurationMultiplier: 10
 --- !u!1001 &8459099778960750471
 PrefabInstance:
   m_ObjectHideFlags: 0

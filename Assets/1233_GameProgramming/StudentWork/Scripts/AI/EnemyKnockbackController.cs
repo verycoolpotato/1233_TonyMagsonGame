@@ -14,6 +14,9 @@ public class EnemyKnockbackController : KnockbackManager
         if (collision.gameObject.CompareTag("Projectile"))
         {
             enemyDamaged(collision);
+
+            //Alert other scripts on this object that it has been hit
+            SendMessage("KnockedBack");
         }
 
         if (collision.gameObject.CompareTag("OffMap"))
@@ -42,10 +45,10 @@ public class EnemyKnockbackController : KnockbackManager
             return;
         }
 
-        // Temporarily disable navmesh while being knocked back
+        //disable navmesh while being knocked back
         navMeshAgent.enabled = false;
 
-        // Enact knockback
+        //perform knockback
         damaged(collision.transform, stats.knockback);
 
         // Only run one coroutine at a time
