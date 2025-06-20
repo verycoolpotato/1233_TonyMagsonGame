@@ -94,7 +94,7 @@ namespace StudentWork
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
-        private int _animIDCrouch;
+      
         private int _animAxisX;
         private int _animAxisZ;
         private int _animIDRunning;

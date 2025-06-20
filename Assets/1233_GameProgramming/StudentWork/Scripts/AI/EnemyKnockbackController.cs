@@ -15,6 +15,12 @@ public class EnemyKnockbackController : KnockbackManager
         {
             enemyDamaged(collision);
         }
+
+        if (collision.gameObject.CompareTag("OffMap"))
+        {
+            Destroy(gameObject);
+
+        }
     }
 
     private void enemyDamaged(Collision collision)
