@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class PlayerKnockbackController : KnockbackManager
 {
@@ -15,17 +12,11 @@ public class PlayerKnockbackController : KnockbackManager
 
     private void playerDamaged(Collision collision)
     {
-        float knockback = collision.gameObject.GetComponent<SnowmanMover>().knockback;
-       
-        
-       
-        
-        damaged(collision,knockback);
-        
-
-
-
+        var enemy = collision.gameObject.GetComponent<SnowmanMover>();
+        if (enemy != null)
+        {
+            damaged(enemy.transform, enemy.knockback);
+        }
     }
-    
-   
 }
+

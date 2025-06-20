@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
+
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -35,29 +38,6 @@ namespace StudentWork
         [Space(10)]
         [Tooltip("The height the player can Jump")]
         public float JumpHeight = 1.2f;
-
-        [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
-        public float Gravity = -15.0f;
-
-        [Space(10)]
-        [Tooltip("Time required to pass before being able to Jump again. Set to 0f to instantly Jump again")]
-        public float JumpTimeout = 0.50f;
-
-        [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
-        public float FallTimeout = 0.15f;
-
-        [Header("Player Grounded")]
-        [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
-        public bool Grounded = true;
-
-        [Tooltip("Useful for rough ground")]
-        public float GroundedOffset = -0.14f;
-
-        [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
-        public float GroundedRadius = 0.28f;
-
-        [Tooltip("What layers the character uses as ground")]
-        public LayerMask GroundLayers;
 
         [Header("Cinemachine")]
         [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
@@ -102,7 +82,7 @@ namespace StudentWork
         private float _targetRotation = 0.0f;
         private float _rotationVelocity;
         private float _verticalVelocity;
-        private float _terminalVelocity = 53.0f;
+       
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -123,9 +103,6 @@ namespace StudentWork
 #if ENABLE_INPUT_SYSTEM
        [SerializeField] private PlayerInput _playerInput;
 #endif
-
-
-      
       
         [SerializeField] private PlayerInputs _input;
 
@@ -149,9 +126,13 @@ namespace StudentWork
 #endif
             }
         }
+        private void FixedUpdate()
+        {
+            Move();
+            
+        }
 
 
-        
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
@@ -160,9 +141,8 @@ namespace StudentWork
 
             AssignAnimationIDs();
 
-            // reset our timeouts on start
-            _jumpTimeoutDelta = JumpTimeout;
-            _fallTimeoutDelta = FallTimeout;
+           
+           
         }
 
         private void Update()
@@ -171,10 +151,6 @@ namespace StudentWork
 
             _hasAnimator = TryGetComponent(out _animator);
 
-            
-           
-            Move();
-            
             AimState(_input.Aim);
         }
 
@@ -192,7 +168,7 @@ namespace StudentWork
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-            _animIDCrouch = Animator.StringToHash("Crouch");
+           
             _animAxisX = Animator.StringToHash("X");
             _animAxisZ = Animator.StringToHash("Z");
         }
@@ -219,6 +195,8 @@ namespace StudentWork
             CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
                 _cinemachineTargetYaw, 0.0f);
         }
+
+
         //Swaps to aiming camera when recieving aim input
         private void AimState(bool AimButton)
         {
@@ -234,11 +212,7 @@ namespace StudentWork
             float targetSpeed = _input.Sprint ? SprintSpeed : MoveSpeed;
 
             _animator.SetBool(_animIDRunning, _input.Sprint);
-
-
-            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
-
-            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+          
             // if there is no input, set the target speed to 0
             if (_input.Move == Vector2.zero) targetSpeed = 0.0f;
 
@@ -257,7 +231,8 @@ namespace StudentWork
                 // creates curved result rather than a linear one giving a more organic speed change
                 // note T in Lerp is clamped, so we don't need to clamp our speed
                 _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-                    Time.deltaTime * SpeedChangeRate);
+                        Time.fixedDeltaTime * SpeedChangeRate);
+
 
                 // round speed to 3 decimal places
                 _speed = Mathf.Round(_speed * 1000f) / 1000f;
@@ -267,11 +242,13 @@ namespace StudentWork
                 _speed = targetSpeed;
             }
 
-            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-            if (_animationBlend < 0.01f) _animationBlend = 0f;
+           
+
 
             // normalise input direction
             Vector3 inputDirection = new Vector3(_input.Move.x, 0.0f, _input.Move.y).normalized;
+
+
 
             //determine direction to Move
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
@@ -282,15 +259,15 @@ namespace StudentWork
             //switch player rotation target when performing certain actions
             float LookDirection;
 
-            if (_input.Sprint || _input.Crouch)
+            if (_input.Sprint)
                 LookDirection = _targetRotation;
             else
                 LookDirection = _camera.transform.rotation.eulerAngles.y;
             
 
 
-                //rotation player should be facing
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, LookDirection, ref _rotationVelocity,
+            //rotation player should be facing
+            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, LookDirection, ref _rotationVelocity,
                     RotationSmoothTime);
 
                
@@ -299,16 +276,25 @@ namespace StudentWork
              transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 
         
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward  * Time.fixedDeltaTime * _speed;
 
-            // Move the player
+            // Apply force if there is input
+            if (_input.Move.x != 0 || _input.Move.y != 0)
+            {
+                _rb.AddForce(targetDirection,ForceMode.Acceleration);
+            }
 
-           
 
-             //Clamp velocity
-            
 
-            //_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+
+
+
+
+
+
+
+
+
 
             // update animator if using character
             if (_hasAnimator)
@@ -330,19 +316,7 @@ namespace StudentWork
             return Mathf.Clamp(lfAngle, lfMin, lfMax);
         }
 
-        private void OnDrawGizmosSelected()
-        {
-            Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
-            Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
-
-            if (Grounded) Gizmos.color = transparentGreen;
-            else Gizmos.color = transparentRed;
-
-            // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
-            Gizmos.DrawSphere(
-                new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
-                GroundedRadius);
-        }
+       
 
        
 

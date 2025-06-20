@@ -500,6 +500,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2901648717786947634, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: Damping.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2901648717786947634, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: Damping.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2901648717786947634, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: Damping.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263487012859972863, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: MoveSpeed
+      value: 4000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263487012859972863, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: SprintSpeed
+      value: 6000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3567334329824451342, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: m_Drag
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3567334329824451342, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: m_Constraints
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3567334329824451342, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3897532338589654595, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: m_UpdateMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3897532338589654595, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8174681602069405556, guid: a1488da85758d83469b90720ac4802b7, type: 3}
       propertyPath: m_Name
       value: PlayerPrefab
@@ -622,19 +662,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2365620133187888045, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
       propertyPath: m_Speed
-      value: 0.5
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2407098252663767098, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
       propertyPath: knockback
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2821345355348447653, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
       propertyPath: m_Drag
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2821345355348447653, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
       propertyPath: m_Mass
-      value: 5
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5206602800786569869, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
+      propertyPath: m_Radius
+      value: 0.5523036
+      objectReference: {fileID: 0}
+    - target: {fileID: 5206602800786569869, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
+      propertyPath: m_Center.x
+      value: 0.0049319863
       objectReference: {fileID: 0}
     - target: {fileID: 6578537966939445309, guid: fc01d4265c0269146b4f712c52ce7714, type: 3}
       propertyPath: m_Name

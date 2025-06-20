@@ -12,15 +12,13 @@ public class KnockbackManager : MonoBehaviour
     [SerializeField] public float knockbackPercentage = 0f;
 
     //knocks character back based on given strength
-    public void damaged(Collision collision, float knockback)
+    public void damaged(Transform attacker, float knockback)
     {
-      
         knockbackPercentage += knockback;
 
-        
-        Vector3 knockbackDirection = -collision.GetContact(0).normal.normalized;
+        Vector3 knockbackDirection = (rb.position - attacker.position).normalized;
         float knockbackForce = 1 + knockbackPercentage;
         rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
-
     }
+
 }
