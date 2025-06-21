@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class EnemyKnockbackController : KnockbackManager
 {
     [SerializeField] private NavMeshAgent navMeshAgent;
-    [SerializeField] private float ringoutThreshold = 10f;
+    [SerializeField] private float ringoutThreshold = 7f;
 
     private Coroutine reenableCoroutine;
 

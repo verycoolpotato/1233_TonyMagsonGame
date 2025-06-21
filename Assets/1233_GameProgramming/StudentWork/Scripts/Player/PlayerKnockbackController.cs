@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class PlayerKnockbackController : KnockbackManager
 {
-
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -16,8 +16,8 @@ public class PlayerKnockbackController : KnockbackManager
             SceneManager.LoadScene("World");
 
         }
-
     }
+
 
     private void playerDamaged(Collision collision)
     {
@@ -25,7 +25,10 @@ public class PlayerKnockbackController : KnockbackManager
         if (enemy != null)
         {
             damaged(enemy.transform, enemy.knockback);
+            SendMessage("UpdateKnockbackNumber",knockbackPercentage);
         }
     }
+
+    
 }
 

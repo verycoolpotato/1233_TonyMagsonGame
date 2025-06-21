@@ -26,48 +26,55 @@ public class SnowmanMover : MonoBehaviour
     
     [SerializeField] private NavMeshAgent _agent;
 
-    [Tooltip("Multiplies the duration of each state (Default is 10)")]
-    [SerializeField] private float stateDurationMultiplier = 10;
+    [SerializeField] private Animator _animator;
 
-    [SerializeField] private Animator _animator; 
-
-    //How long the state lasts
-    private float stateDuration = 0.4f;
+    [Tooltip("How long each state lasts")]
+    [SerializeField] private float stateDuration = 1;
 
     private Vector3 targetPos;
     private Vector3 MoveDirection;
 
     private int _animAxisX;
+    private int _animHit;
     private int _animAxisZ;
+
+
+
 
     private void Start()
     {
         //Randomise state every x seconds
-        InvokeRepeating(nameof(ShuffleState), 1,stateDuration * stateDurationMultiplier);
-
+        InvokeRepeating(nameof(ShuffleState), 1,stateDuration);
+        SetAnimID();
         _agent.updateRotation = false;
     }
     private void Update()
     {
         AnimateCharacter();
-        SetAnimID();
+      
 
         StateSwitcher();
         targetPos = PlayerLocatorSingleton.Instance.transform.position;
         FacePlayer();
     }
+
+ 
+
+
     private void SetAnimID()
     {
         _animAxisX = Animator.StringToHash("X");
         _animAxisZ = Animator.StringToHash("Z");
+        _animHit = Animator.StringToHash("Hit");
     }
-    //Randomise state when called - CHANGE LATER TO ALLOW CUSTOM WEIGHT VALUES FOR STATES
-    private void ShuffleState()
-    {
-      int newState = Random.Range(0, 3);
-        state = (AIStates)newState;
-    }
+   
 
+    private void AnimateCharacter()
+    {
+        _animator.SetFloat(_animAxisX, MoveDirection.x, 0.1f, Time.deltaTime);
+        _animator.SetFloat(_animAxisZ, MoveDirection.z, 0.1f, Time.deltaTime);
+
+    }
     //Rotate towards player
     private void FacePlayer()
     {
@@ -76,6 +83,15 @@ public class SnowmanMover : MonoBehaviour
        Quaternion rotation = Quaternion.LookRotation(LookPos);
         transform.rotation = Quaternion.Slerp(transform.rotation,rotation,Time.deltaTime * rotateSpeed);
     }
+
+    //Randomise state when called - CHANGE LATER TO ALLOW CUSTOM WEIGHT VALUES FOR STATES
+    private void ShuffleState()
+    {
+        int newState = Random.Range(0, 2);
+        state = (AIStates)newState;
+    }
+
+    
 
     //Prevent multiple states from being active
     private void StateSwitcher()
@@ -95,10 +111,10 @@ public class SnowmanMover : MonoBehaviour
                 case AIStates.StrafeRight:
                     StrafeState(-1);
                     break;
-
                 case AIStates.Block:
-                    Block();
+                    BlockState();
                     break;
+               
             }
         }
     }
@@ -112,7 +128,8 @@ public class SnowmanMover : MonoBehaviour
 
         stateDuration = 0.5f;
 
-        MoveDirection = Vector3.forward;
+        MoveDirection.z = 1; 
+        MoveDirection.x = 0;
     }
 
     //strafe left or right, direction is determined by strafeDir which is set to either 1 or -1
@@ -125,24 +142,25 @@ public class SnowmanMover : MonoBehaviour
 
         stateDuration = 0.08f;
         MoveDirection.x = strafeDir;
+        MoveDirection.z = 0;
     }
+    
 
-
-    private void Block()
+   
+   private void BlockState()
     {
+        MoveDirection = Vector3.zero;
 
-
-        stateDuration = 0.1f;
+        
     }
    
-   
+
+    //recieves from enemy knockback manager when hit by projectile
     public void KnockedBack()
     {
         state = AIStates.Block;
+        _animator.SetTrigger(_animHit);
+        
     }
-    private void AnimateCharacter()
-    {
-        _animator.SetFloat(_animAxisX, MoveDirection.x, 0.1f, Time.deltaTime);
-        _animator.SetFloat(_animAxisZ, MoveDirection.z, 0.1f, Time.deltaTime);
-    }
+   
 }
