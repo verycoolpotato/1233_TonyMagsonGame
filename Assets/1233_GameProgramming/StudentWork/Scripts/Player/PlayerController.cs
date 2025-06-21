@@ -125,7 +125,6 @@ namespace StudentWork
         private void FixedUpdate()
         {
             Move();
-            
         }
 
 

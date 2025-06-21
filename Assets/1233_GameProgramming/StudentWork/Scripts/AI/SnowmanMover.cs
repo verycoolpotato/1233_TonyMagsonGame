@@ -12,8 +12,11 @@ public class SnowmanMover : MonoBehaviour
         Charge,
         StrafeLeft,
         StrafeRight,
-        Block
+        Block,
+        IceGrab,
+        IceThrow
     }
+
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float chargeSpeed;
     [SerializeField] private float strafeSpeed;
@@ -30,6 +33,10 @@ public class SnowmanMover : MonoBehaviour
 
     [Tooltip("How long each state lasts")]
     [SerializeField] private float stateDuration = 1;
+
+    [SerializeField] private GameObject IceObj;
+
+    private bool carryingIce;
 
     private Vector3 targetPos;
     private Vector3 MoveDirection;
@@ -87,7 +94,7 @@ public class SnowmanMover : MonoBehaviour
     //Randomise state when called - CHANGE LATER TO ALLOW CUSTOM WEIGHT VALUES FOR STATES
     private void ShuffleState()
     {
-        int newState = Random.Range(0, 2);
+        int newState = Random.Range(0, 6);
         state = (AIStates)newState;
     }
 
@@ -111,10 +118,19 @@ public class SnowmanMover : MonoBehaviour
                 case AIStates.StrafeRight:
                     StrafeState(-1);
                     break;
+
                 case AIStates.Block:
                     BlockState();
                     break;
                
+                case AIStates.IceGrab:
+                    IceGrab();
+                    break;
+
+                case AIStates.IceThrow:
+                    IceThrow();
+                    break;
+
             }
         }
     }
@@ -145,13 +161,29 @@ public class SnowmanMover : MonoBehaviour
         MoveDirection.z = 0;
     }
     
+    private void IceGrab()
+    {
+        if (!carryingIce)
+        {
+            carryingIce = true;
+          
+        }
+        IceObj.SetActive(carryingIce);
+    }
 
+    private void IceThrow()
+    {
+        if (carryingIce)
+        {
+            carryingIce = false;
+        }
+        IceObj.SetActive(carryingIce);
+    }
    
    private void BlockState()
     {
         MoveDirection = Vector3.zero;
 
-        
     }
    
 

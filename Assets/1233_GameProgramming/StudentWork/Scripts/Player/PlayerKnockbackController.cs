@@ -12,7 +12,7 @@ public class PlayerKnockbackController : KnockbackManager
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            Instantiate(enemy, Vector3.zero,Quaternion.identity);
+            Instantiate(enemy, new Vector3(0,0,0),Quaternion.identity);
         }
     }
     private void OnCollisionEnter(Collision collision)

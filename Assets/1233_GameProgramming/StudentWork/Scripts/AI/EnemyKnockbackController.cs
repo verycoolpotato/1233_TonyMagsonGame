@@ -1,11 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 public class EnemyKnockbackController : KnockbackManager
 {
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] private float ringoutThreshold = 7f;
+
+    [SerializeField] private TextMeshProUGUI knockbackPercentText;
 
     private Coroutine reenableCoroutine;
 
@@ -51,6 +54,8 @@ public class EnemyKnockbackController : KnockbackManager
         //perform knockback
         damaged(collision.transform, stats.knockback);
 
+        UpdateUI();
+
         // Only run one coroutine at a time
         if (reenableCoroutine != null)
         {
@@ -65,5 +70,10 @@ public class EnemyKnockbackController : KnockbackManager
     {
         yield return new WaitUntil(() => rb.velocity.magnitude < 0.1f);
         navMeshAgent.enabled = true;
+    }
+
+    private void UpdateUI()
+    {
+        knockbackPercentText.text = knockbackPercentage.ToString() + "%";
     }
 }
