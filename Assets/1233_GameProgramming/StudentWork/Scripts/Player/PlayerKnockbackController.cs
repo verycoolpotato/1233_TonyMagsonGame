@@ -2,8 +2,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class PlayerKnockbackController : KnockbackManager
 {
-    
-
+    [SerializeField] private GameObject enemy;
+    private void Update()
+    {
+        //debug stuff, will be deleted
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            SceneManager.LoadScene("World");
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            Instantiate(enemy, Vector3.zero,Quaternion.identity);
+        }
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))

@@ -84,15 +84,11 @@ namespace StudentWork
         private float _verticalVelocity;
        
 
-        // timeout deltatime
-        private float _jumpTimeoutDelta;
-        private float _fallTimeoutDelta;
+        
 
         // animation IDs
         private int _animIDSpeed;
-        private int _animIDGrounded;
-        private int _animIDJump;
-        private int _animIDFreeFall;
+   
         private int _animIDMotionSpeed;
       
         private int _animAxisX;
@@ -135,6 +131,8 @@ namespace StudentWork
 
         private void Start()
         {
+            
+
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
             _hasAnimator = TryGetComponent(out _animator);
@@ -164,9 +162,8 @@ namespace StudentWork
             
             _animIDRunning = Animator.StringToHash("Running");
             _animIDSpeed = Animator.StringToHash("Speed");
-            _animIDGrounded = Animator.StringToHash("Grounded");
-            _animIDJump = Animator.StringToHash("Jump");
-            _animIDFreeFall = Animator.StringToHash("FreeFall");
+            
+          
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
            
             _animAxisX = Animator.StringToHash("X");
@@ -217,7 +214,7 @@ namespace StudentWork
             if (_input.Move == Vector2.zero) targetSpeed = 0.0f;
 
             // a reference to the players current horizontal velocity
-            float currentHorizontalSpeed = new Vector3(_rb.velocity.x, 0.0f, _rb.velocity.z).magnitude;
+            float currentHorizontalSpeed = new Vector3(_rb.velocity.x, _rb.velocity.y, _rb.velocity.z).magnitude;
 
            
 
@@ -277,24 +274,14 @@ namespace StudentWork
                 
         
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward  * Time.fixedDeltaTime * _speed;
+            
 
-            // Apply force if there is input
+            // Apply force if there is input - MAIN MOVEMENT CONTROL
             if (_input.Move.x != 0 || _input.Move.y != 0)
             {
                 _rb.AddForce(targetDirection,ForceMode.Acceleration);
             }
-
-
-
-
-
-
-
-
-
-
-
-
+            
 
             // update animator if using character
             if (_hasAnimator)

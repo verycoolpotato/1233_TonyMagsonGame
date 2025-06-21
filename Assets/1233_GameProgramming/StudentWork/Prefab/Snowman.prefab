@@ -139,7 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeed: 5
   chargeSpeed: 7
-  strafeSpeed: 5
+  strafeSpeed: 3
   state: 2
   knockback: 2
   _agent: {fileID: 2365620133187888045}

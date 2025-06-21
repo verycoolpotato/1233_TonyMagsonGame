@@ -22,6 +22,8 @@ namespace StudentWork
 
         private void Update()
         {
+            
+
             CrosshairVisible();
         }
         private void CrosshairVisible()
@@ -34,6 +36,8 @@ namespace StudentWork
         {
             knockbackPercentDisplay.text = percentage.ToString() + "%";
         }
+
+        
     }
 
 }
