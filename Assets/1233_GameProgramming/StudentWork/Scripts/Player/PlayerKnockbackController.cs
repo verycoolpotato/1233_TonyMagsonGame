@@ -8,7 +8,8 @@ public class PlayerKnockbackController : KnockbackManager
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            playerDamaged(collision);
+            playerDamaged(collision, collision.relativeVelocity.magnitude);
+           
         }
 
         if (collision.gameObject.CompareTag("OffMap"))
@@ -19,13 +20,13 @@ public class PlayerKnockbackController : KnockbackManager
     }
 
 
-    private void playerDamaged(Collision collision)
+    private void playerDamaged(Collision collision, float velocity)
     {
         var enemy = collision.gameObject.GetComponent<SnowmanMover>();
         if (enemy != null)
         {
-            damaged(enemy.transform, enemy.knockback);
-            SendMessage("UpdateKnockbackNumber",knockbackPercentage);
+            damaged(enemy.transform, enemy.knockback * velocity);
+            SendMessage("UpdateKnockbackNumber",Mathf.Round(knockbackPercentage) * 3);
         }
     }
 

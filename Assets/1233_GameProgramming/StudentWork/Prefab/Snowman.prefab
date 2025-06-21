@@ -141,9 +141,10 @@ MonoBehaviour:
   chargeSpeed: 7
   strafeSpeed: 5
   state: 2
-  knockback: 10
+  knockback: 2
   _agent: {fileID: 2365620133187888045}
-  stateDurationMultiplier: 10
+  _animator: {fileID: 2598110550458812950}
+  stateDuration: 1
 --- !u!1001 &8459099778960750471
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -199,12 +200,17 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 2b57d69db3d2c3d4782ca61312e4af1d, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 40db3173a05ae3242b1c182a09b0a183, type: 2}
+      objectReference: {fileID: 9100000, guid: e1284849a78bfd84b86bd6a7feaf4ef9, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b57d69db3d2c3d4782ca61312e4af1d, type: 3}
+--- !u!95 &2598110550458812950 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 2b57d69db3d2c3d4782ca61312e4af1d, type: 3}
+  m_PrefabInstance: {fileID: 8459099778960750471}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8281692087292203116 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2b57d69db3d2c3d4782ca61312e4af1d, type: 3}
