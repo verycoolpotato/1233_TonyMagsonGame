@@ -175,6 +175,7 @@ public class SnowmanMover : MonoBehaviour
     {
         if (carryingIce)
         {
+            SendMessage("ThrowIce");
             carryingIce = false;
         }
         IceObj.SetActive(carryingIce);

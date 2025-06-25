@@ -17,7 +17,7 @@ public class PlayerKnockbackController : KnockbackManager
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("EnemyKnockbackSource"))
         {
             playerDamaged(collision, collision.relativeVelocity.magnitude);
            
@@ -33,7 +33,7 @@ public class PlayerKnockbackController : KnockbackManager
 
     private void playerDamaged(Collision collision, float velocity)
     {
-        var enemy = collision.gameObject.GetComponent<SnowmanMover>();
+        var enemy = collision.gameObject.GetComponent<KnockbackStats>();
         if (enemy != null)
         {
             damaged(enemy.transform, enemy.knockback * velocity);
