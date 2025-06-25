@@ -398,6 +398,7 @@ GameObject:
   - component: {fileID: 5125647307398477673}
   - component: {fileID: 2407098252663767098}
   - component: {fileID: 5071215332989233412}
+  - component: {fileID: 9003827163003167344}
   m_Layer: 0
   m_Name: Snowman
   m_TagString: EnemyKnockbackSource
@@ -545,7 +546,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05cc06fadfd931a49a58fef59aa308e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iceChunkObj: {fileID: 0}
+  iceChunkObj: {fileID: 2787234184837338282, guid: 19b75f576dccf814e8e65e5e2b9c687b, type: 3}
+--- !u!114 &9003827163003167344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6578537966939445309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16bf48d9f53fa164b99ac2d52c6fbe97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockback: 2
 --- !u!1001 &8459099778960750471
 PrefabInstance:
   m_ObjectHideFlags: 0
