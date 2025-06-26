@@ -16,7 +16,7 @@ public class SnowmanMover : MonoBehaviour
     }
 
    
-    [SerializeField] private float chargeSpeed;
+    [SerializeField] private float RunSpeed;
     [SerializeField] private float walkSpeed;
 
     [Tooltip("Current state of the enemy AI")]
@@ -133,7 +133,7 @@ public class SnowmanMover : MonoBehaviour
     {
         
         
-            _agent.speed = chargeSpeed;
+            _agent.speed = RunSpeed;
 
 
         CountFrom = 4;
