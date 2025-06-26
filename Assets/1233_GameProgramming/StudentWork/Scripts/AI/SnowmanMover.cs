@@ -15,12 +15,12 @@ public class SnowmanMover : MonoBehaviour
         Idle
     }
 
-    [SerializeField] private float rotateSpeed;
+   
     [SerializeField] private float chargeSpeed;
-    [SerializeField] private float strafeSpeed;
+    [SerializeField] private float walkSpeed;
 
     [Tooltip("Current state of the enemy AI")]
-    [SerializeField] private AIStates state;
+    [SerializeField] private AIStates state = AIStates.Idle;
 
     [Tooltip("How far the player is knocked back on contact with this character")]
     [SerializeField] public float knockback;
@@ -29,8 +29,6 @@ public class SnowmanMover : MonoBehaviour
 
     [SerializeField] private Animator _animator;
 
-    [Tooltip("How long each state lasts")]
-    [SerializeField] private float stateDuration = 1;
 
     [SerializeField] private GameObject IceObj;
 
@@ -38,6 +36,9 @@ public class SnowmanMover : MonoBehaviour
 
     private Vector3 targetPos;
     private Vector3 MoveDirection;
+
+    private float CountFrom = 2;
+    private float time;
 
     private int _animAxisX;
     private int _animHit;
@@ -51,20 +52,33 @@ public class SnowmanMover : MonoBehaviour
         //Randomise state every x seconds
         
         SetAnimID();
-        _agent.updateRotation = false;
+        _agent.updateRotation = true;
+       
     }
     private void Update()
     {
         AnimateCharacter();
-      
-
+        if(_agent != null && _agent.enabled)
+        {
+            _agent.destination = targetPos;
+        }
+        
         StateSwitcher();
         targetPos = PlayerLocatorSingleton.Instance.transform.position;
-        FacePlayer();
+        
+        stateTimer(CountFrom);
     }
 
- 
-   
+    private void stateTimer(float CountFrom)
+    {
+        time -= 1 * Time.deltaTime;
+        if (time < 0)
+        {
+            ShuffleState();
+            time = CountFrom;
+        }
+        
+    }
 
     private void SetAnimID()
     {
@@ -80,19 +94,12 @@ public class SnowmanMover : MonoBehaviour
         _animator.SetFloat(_animAxisZ, MoveDirection.z, 0.1f, Time.deltaTime);
 
     }
-    //Rotate towards player
-    private void FacePlayer()
-    {
-        Vector3 LookPos = targetPos - transform.position;
-        LookPos.y = 0;
-       Quaternion rotation = Quaternion.LookRotation(LookPos);
-        transform.rotation = Quaternion.Slerp(transform.rotation,rotation,Time.deltaTime * rotateSpeed);
-    }
+    
 
     //Randomise state when called - CHANGE LATER TO ALLOW CUSTOM WEIGHT VALUES FOR STATES
     private void ShuffleState()
     {
-        int newState = Random.Range(0, 3);
+        int newState = Random.Range(0, 2);
         state = (AIStates)newState;
     }
 
@@ -109,10 +116,6 @@ public class SnowmanMover : MonoBehaviour
                     ChargeState();
                     break;
 
-               
-
-                
-               
                 case AIStates.IceGrab:
                     IceGrab();
                     break;
@@ -120,7 +123,7 @@ public class SnowmanMover : MonoBehaviour
                 case AIStates.IceThrow:
                     IceThrow();
                     break;
-
+                
             }
         }
     }
@@ -128,19 +131,25 @@ public class SnowmanMover : MonoBehaviour
     //Run towards player
     private void ChargeState()
     {
-            _agent.destination = targetPos;
+        
+        
             _agent.speed = chargeSpeed;
 
 
-        
+        CountFrom = 4;
 
         MoveDirection.z = 1; 
         MoveDirection.x = 0;
     }
 
-    
+    //if not carrying ice pick up ice
     private void IceGrab()
     {
+        MoveDirection.z = 1;
+        MoveDirection.x = 0;
+        _agent.speed = walkSpeed;
+        CountFrom = 1;
+
         if (!carryingIce)
         {
             carryingIce = true;
@@ -149,8 +158,15 @@ public class SnowmanMover : MonoBehaviour
         IceObj.SetActive(carryingIce);
     }
 
+    //if carrying ice then throw ice at player
     private void IceThrow()
     {
+        MoveDirection.z = 1;
+        MoveDirection.x = 0;
+        _agent.speed = walkSpeed;
+        CountFrom = 2;
+
+
         if (carryingIce)
         {
             SendMessage("ThrowIce");
@@ -159,12 +175,10 @@ public class SnowmanMover : MonoBehaviour
         IceObj.SetActive(carryingIce);
     }
    
-  
-   
-
     //recieves from enemy knockback manager when hit by projectile
     public void KnockedBack()
     {
+        _agent.speed = walkSpeed;
         MoveDirection = Vector3.zero;
         _animator.SetTrigger(_animHit);
         
