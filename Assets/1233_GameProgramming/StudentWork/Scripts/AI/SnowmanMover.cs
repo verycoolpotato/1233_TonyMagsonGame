@@ -10,11 +10,9 @@ public class SnowmanMover : MonoBehaviour
     private enum AIStates
     {
         Charge,
-        StrafeLeft,
-        StrafeRight,
-        Block,
         IceGrab,
-        IceThrow
+        IceThrow,
+        Idle
     }
 
     [SerializeField] private float rotateSpeed;
@@ -51,7 +49,7 @@ public class SnowmanMover : MonoBehaviour
     private void Start()
     {
         //Randomise state every x seconds
-        InvokeRepeating(nameof(ShuffleState), 1,stateDuration);
+        
         SetAnimID();
         _agent.updateRotation = false;
     }
@@ -66,7 +64,7 @@ public class SnowmanMover : MonoBehaviour
     }
 
  
-
+   
 
     private void SetAnimID()
     {
@@ -94,7 +92,7 @@ public class SnowmanMover : MonoBehaviour
     //Randomise state when called - CHANGE LATER TO ALLOW CUSTOM WEIGHT VALUES FOR STATES
     private void ShuffleState()
     {
-        int newState = Random.Range(0, 6);
+        int newState = Random.Range(0, 3);
         state = (AIStates)newState;
     }
 
@@ -111,17 +109,9 @@ public class SnowmanMover : MonoBehaviour
                     ChargeState();
                     break;
 
-                case AIStates.StrafeLeft:
-                    StrafeState(1);
-                    break;
+               
 
-                case AIStates.StrafeRight:
-                    StrafeState(-1);
-                    break;
-
-                case AIStates.Block:
-                    BlockState();
-                    break;
+                
                
                 case AIStates.IceGrab:
                     IceGrab();
@@ -142,24 +132,12 @@ public class SnowmanMover : MonoBehaviour
             _agent.speed = chargeSpeed;
 
 
-        stateDuration = 0.5f;
+        
 
         MoveDirection.z = 1; 
         MoveDirection.x = 0;
     }
 
-    //strafe left or right, direction is determined by strafeDir which is set to either 1 or -1
-    private void StrafeState(float strafeDir)
-    {
-        var dir = Vector3.Cross(targetPos - transform.position, Vector3.up);
-
-        _agent.SetDestination(transform.position + dir * strafeDir);
-        _agent.speed = strafeSpeed;
-
-        stateDuration = 0.08f;
-        MoveDirection.x = strafeDir;
-        MoveDirection.z = 0;
-    }
     
     private void IceGrab()
     {
@@ -181,17 +159,13 @@ public class SnowmanMover : MonoBehaviour
         IceObj.SetActive(carryingIce);
     }
    
-   private void BlockState()
-    {
-        MoveDirection = Vector3.zero;
-
-    }
+  
    
 
     //recieves from enemy knockback manager when hit by projectile
     public void KnockedBack()
     {
-        state = AIStates.Block;
+        MoveDirection = Vector3.zero;
         _animator.SetTrigger(_animHit);
         
     }

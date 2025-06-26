@@ -8,11 +8,11 @@ public class IceThrowLogic : MonoBehaviour
 
     public void ThrowIce()
     {
-        Vector3 throwFromPosition = transform.position + new Vector3(0,2,0);
+       Vector3 throwFromPosition = transform.position + new Vector3(0,2,0);
 
        GameObject projectile = Instantiate(iceChunkObj, throwFromPosition, Quaternion.identity);
 
-       
+       projectile.GetComponent<Rigidbody>().AddForce(Vector3.forward * 10,ForceMode.Impulse);
       
     }
 }

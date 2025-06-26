@@ -471,7 +471,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &5206602800786569869
 CapsuleCollider:
@@ -532,7 +532,7 @@ MonoBehaviour:
   knockback: 2
   _agent: {fileID: 2365620133187888045}
   _animator: {fileID: 2598110550458812950}
-  stateDuration: 1
+  stateDuration: 3
   IceObj: {fileID: 3187299486013118195}
 --- !u!114 &5071215332989233412
 MonoBehaviour:
