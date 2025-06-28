@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
       InitializeGame();
-        InvokeRepeating(nameof(AddToLevel), 5, 5);
+       
     }
     private void InitializeGame()
     {
@@ -34,16 +34,7 @@ public class GameManager : MonoBehaviour
         characterManager.SpawnCharacter();
     }
     
-    private void AddToLevel()
-    {
-        if (featureNumber < MapFeatures.Length)
-        {
-            Instantiate(MapFeatures[featureNumber], Vector3.zero, Quaternion.identity);
-        }
-       
-
-        featureNumber++;
-    }
+   
 
    
 }

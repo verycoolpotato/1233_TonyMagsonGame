@@ -162,7 +162,8 @@ namespace StudentWork
 
         private void AssignAnimationIDs()
         {
-            
+            //Add falling animation
+
             _animIDRunning = Animator.StringToHash("Running");
             _animIDSpeed = Animator.StringToHash("Speed");
             
