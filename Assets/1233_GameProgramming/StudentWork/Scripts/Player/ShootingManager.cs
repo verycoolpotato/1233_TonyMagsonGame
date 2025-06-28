@@ -24,6 +24,8 @@ namespace StudentWork
 
         [SerializeField] private Transform ThrowPos;
 
+        [SerializeField] private AudioSource _audioSource;
+
         private Camera _camera;
 
         private int _animIDThrow;
@@ -70,6 +72,10 @@ namespace StudentWork
             //Delete clone after 3 seconds
             Destroy(Clone,3f);
 
+        }
+        public void PlayThrowAudio()
+        {
+            _audioSource.Play(); 
         }
     }
 }

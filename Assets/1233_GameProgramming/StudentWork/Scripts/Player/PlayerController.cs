@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 
 #if ENABLE_INPUT_SYSTEM
@@ -31,9 +32,12 @@ namespace StudentWork
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
 
+        
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
         [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
+
+        [SerializeField] private AudioMixer audioMixer;
 
         [Space(10)]
         [Tooltip("The height the player can Jump")]
@@ -71,6 +75,7 @@ namespace StudentWork
 
         [Tooltip("This Rigidbody")]
         [SerializeField] private Rigidbody _rb;
+
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -144,8 +149,7 @@ namespace StudentWork
 
         private void Update()
         {
-            
-
+       
             _hasAnimator = TryGetComponent(out _animator);
 
             AimState(_input.Aim);
@@ -237,9 +241,6 @@ namespace StudentWork
             {
                 _speed = targetSpeed;
             }
-
-           
-
 
             // normalise input direction
             Vector3 inputDirection = new Vector3(_input.Move.x, 0.0f, _input.Move.y).normalized;

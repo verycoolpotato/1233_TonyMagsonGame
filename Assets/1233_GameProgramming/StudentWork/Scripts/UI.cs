@@ -37,12 +37,13 @@ namespace StudentWork
             GameTimer();
             CrosshairVisible();
         }
+        //Show crosshair when player is aiming
         private void CrosshairVisible()
         {
             crosshair.enabled = _input.Aim;
         }
 
-
+        //Called by player knockback controller
         public void UpdateKnockbackNumber(float percentage)
         {
             knockbackPercentDisplay.text = percentage.ToString() + "%";

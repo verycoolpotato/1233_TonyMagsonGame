@@ -53,7 +53,7 @@ public class EnemyKnockbackController : KnockbackManager
         navMeshAgent.enabled = false;
 
         //perform knockback
-        damaged(collision.transform, stats.knockback);
+        Damaged(collision.transform, stats.knockback);
 
         UpdateUI();
 

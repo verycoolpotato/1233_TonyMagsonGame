@@ -6,13 +6,14 @@ using UnityEngine.AI;
 
 public class KnockbackManager : MonoBehaviour
 {
+    //This rigidbody
     [SerializeField] public Rigidbody rb;
 
     //Distance the character flies when hit
     [SerializeField] public float knockbackPercentage = 0f;
 
     //knocks character back based on given strength
-    public void damaged(Transform attacker, float knockback)
+    public void Damaged(Transform attacker, float knockback)
     {
         knockbackPercentage += knockback;
 

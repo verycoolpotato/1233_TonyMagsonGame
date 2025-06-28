@@ -25,7 +25,9 @@ public class PlayerKnockbackController : KnockbackManager
         var enemy = collision.gameObject.GetComponent<KnockbackStats>();
         if (enemy != null)
         {
-            damaged(enemy.transform, enemy.knockback * velocity);
+            Damaged(enemy.transform, enemy.knockback * velocity);
+
+            //message will be recieved by UI script
             SendMessage("UpdateKnockbackNumber",Mathf.Round(knockbackPercentage) * 3);
         }
     }
