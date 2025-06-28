@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class SnowmanMover : MonoBehaviour
 {
    
-    //all possible ai states
+    //Possible AI states
     private enum AIStates
     {
         Charge,
@@ -14,8 +14,10 @@ public class SnowmanMover : MonoBehaviour
         IceThrow,
     }
 
-   
+    [Tooltip("How fast does the enemy move when in the charge state")]
     [SerializeField] private float RunSpeed;
+
+    [Tooltip("How fast does the enemy move when in the ice grab, ice throw states")]
     [SerializeField] private float walkSpeed;
 
     [Tooltip("Current state of the enemy AI")]
@@ -23,17 +25,23 @@ public class SnowmanMover : MonoBehaviour
 
     [Tooltip("How far the player is knocked back on contact with this character")]
     [SerializeField] public float knockback;
-    
+
+    [Tooltip("This Navmesh Agent")]
     [SerializeField] private NavMeshAgent _agent;
 
+    [Tooltip("This Animator")]
     [SerializeField] private Animator _animator;
 
-
+    [Tooltip("Static ice chunk that appears above enemy")]
     [SerializeField] private GameObject IceObj;
 
+ 
     private bool carryingIce;
 
+    //Position to move towards
     private Vector3 targetPos;
+
+    //Direction of movement used by animator
     private Vector3 MoveDirection;
 
     private float CountFrom = 2;
@@ -43,6 +51,7 @@ public class SnowmanMover : MonoBehaviour
     private int _animHit;
     private int _animAxisZ;
 
+    //Is in idle state?
     private bool Idle;
 
 
@@ -58,6 +67,8 @@ public class SnowmanMover : MonoBehaviour
     private void Update()
     {
         AnimateCharacter();
+
+        //if possible move towards player
         if(_agent != null && _agent.enabled)
         {
              _agent.SetDestination(targetPos);
@@ -79,6 +90,7 @@ public class SnowmanMover : MonoBehaviour
         
     }
 
+    //Counts down from a timer and calls shufflestate when the time is up
     private void StateTimer(float CountFrom)
     {
         time -= 1 * Time.deltaTime;
@@ -88,7 +100,7 @@ public class SnowmanMover : MonoBehaviour
             time = CountFrom;
         }
     }
-
+    //Assign anim ids on start
     private void SetAnimID()
     {
         _animAxisX = Animator.StringToHash("X");
@@ -96,7 +108,7 @@ public class SnowmanMover : MonoBehaviour
         _animHit = Animator.StringToHash("Hit");
     }
    
-
+    //set walking anims based on x and z of movedirection
     private void AnimateCharacter()
     {
         _animator.SetFloat(_animAxisX, MoveDirection.x, 0.1f, Time.deltaTime);
@@ -135,7 +147,7 @@ public class SnowmanMover : MonoBehaviour
         }
     }
 
-    //Check for 
+    //Check for player distance and end idle state when alerted
     private void IdleState()
     {
         Vector3 distance =
@@ -197,9 +209,14 @@ public class SnowmanMover : MonoBehaviour
     //recieves from enemy knockback manager when hit by projectile
     public void KnockedBack()
     {
+        //End idle state
         Idle = false;
         _agent.speed = walkSpeed;
+
+        //Stop walking animation
         MoveDirection = Vector3.zero;
+
+        //Play hit animation
         _animator.SetTrigger(_animHit);
         
     }
