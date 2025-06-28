@@ -45,5 +45,5 @@ public class GameManager : MonoBehaviour
         featureNumber++;
     }
 
-
+   
 }

@@ -44,7 +44,7 @@ public class EnemyKnockbackController : KnockbackManager
         {
             rb.constraints = RigidbodyConstraints.None;
             navMeshAgent.enabled = false;
-            knockbackPercentage = 1000f;
+           
             knockbackPercentText.text = "";
             return;
         }
@@ -75,6 +75,10 @@ public class EnemyKnockbackController : KnockbackManager
 
     private void UpdateUI()
     {
-        knockbackPercentText.text = (knockbackPercentage).ToString() + "%";
+        knockbackPercentText.text = knockbackPercentage.ToString() + "%";
+        if(knockbackPercentage > 70)
+        {
+            knockbackPercentText.color = Color.red;
+        }
     }
 }
