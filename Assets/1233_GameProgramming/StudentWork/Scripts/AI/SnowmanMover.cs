@@ -12,7 +12,6 @@ public class SnowmanMover : MonoBehaviour
         Charge,
         IceGrab,
         IceThrow,
-        Idle
     }
 
    
@@ -20,7 +19,7 @@ public class SnowmanMover : MonoBehaviour
     [SerializeField] private float walkSpeed;
 
     [Tooltip("Current state of the enemy AI")]
-    [SerializeField] private AIStates state = AIStates.Idle;
+    [SerializeField] private AIStates state;
 
     [Tooltip("How far the player is knocked back on contact with this character")]
     [SerializeField] public float knockback;
@@ -44,11 +43,12 @@ public class SnowmanMover : MonoBehaviour
     private int _animHit;
     private int _animAxisZ;
 
-
+    private bool Idle;
 
 
     private void Start()
     {
+        Idle = true;
         //Randomise state every x seconds
         
         SetAnimID();
@@ -60,16 +60,26 @@ public class SnowmanMover : MonoBehaviour
         AnimateCharacter();
         if(_agent != null && _agent.enabled)
         {
-            _agent.destination = targetPos;
+             _agent.SetDestination(targetPos);
         }
         
-        StateSwitcher();
-        targetPos = PlayerLocatorSingleton.Instance.transform.position;
         
-        stateTimer(CountFrom);
+        targetPos = PlayerLocatorSingleton.Instance.transform.position;
+
+        //Check for player in range and idle state
+        if (!Idle)
+        {
+            StateTimer(CountFrom);
+            StateSwitcher();
+        }
+        else
+        {
+            IdleState();
+        }
+        
     }
 
-    private void stateTimer(float CountFrom)
+    private void StateTimer(float CountFrom)
     {
         time -= 1 * Time.deltaTime;
         if (time < 0)
@@ -77,7 +87,6 @@ public class SnowmanMover : MonoBehaviour
             ShuffleState();
             time = CountFrom;
         }
-        
     }
 
     private void SetAnimID()
@@ -92,18 +101,15 @@ public class SnowmanMover : MonoBehaviour
     {
         _animator.SetFloat(_animAxisX, MoveDirection.x, 0.1f, Time.deltaTime);
         _animator.SetFloat(_animAxisZ, MoveDirection.z, 0.1f, Time.deltaTime);
-
     }
     
 
-    //Randomise state when called - CHANGE LATER TO ALLOW CUSTOM WEIGHT VALUES FOR STATES
+    //Randomise state when called
     private void ShuffleState()
     {
-        int newState = Random.Range(0, 2);
+        int newState = Random.Range(0, 3);
         state = (AIStates)newState;
     }
-
-    
 
     //Prevent multiple states from being active
     private void StateSwitcher()
@@ -123,18 +129,31 @@ public class SnowmanMover : MonoBehaviour
                 case AIStates.IceThrow:
                     IceThrow();
                     break;
+
                 
             }
         }
     }
 
+    //Check for 
+    private void IdleState()
+    {
+        Vector3 distance =
+            PlayerLocatorSingleton.Instance.transform.position - _agent.transform.position;
+
+        Idle = distance.magnitude > 15;
+
+        _agent.speed = 0;
+        MoveDirection.z = 0;
+        MoveDirection.x = 0;
+
+    }
+
     //Run towards player
     private void ChargeState()
     {
-        
-        
-            _agent.speed = RunSpeed;
 
+            _agent.speed = RunSpeed;
 
         CountFrom = 4;
 
@@ -178,6 +197,7 @@ public class SnowmanMover : MonoBehaviour
     //recieves from enemy knockback manager when hit by projectile
     public void KnockedBack()
     {
+        Idle = false;
         _agent.speed = walkSpeed;
         MoveDirection = Vector3.zero;
         _animator.SetTrigger(_animHit);

@@ -13,6 +13,8 @@ public class IceThrowLogic : MonoBehaviour
        GameObject projectile = Instantiate(iceChunkObj, throwFromPosition, Quaternion.identity);
 
        projectile.GetComponent<Rigidbody>().AddForce(transform.rotation * Vector3.forward * 25,ForceMode.Impulse);
+
+        Destroy(projectile,4);
       
     }
 }

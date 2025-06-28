@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4441145129895463758}
+  - component: {fileID: 1670879944509948628}
   m_Layer: 8
   m_Name: RotateUITowardPlayer
   m_TagString: Untagged
@@ -25,13 +26,25 @@ Transform:
   m_GameObject: {fileID: 1946766743264835243}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.755, y: -0.199, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1333507578027360630}
   m_Father: {fileID: 1556076203991014300}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1670879944509948628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946766743264835243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f3a929039b692b4facbb7560477851b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2174532378135985581
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2449928448411668273
 Transform:
   m_ObjectHideFlags: 0
@@ -511,7 +524,7 @@ MonoBehaviour:
   rb: {fileID: 2821345355348447653}
   knockbackPercentage: 0
   navMeshAgent: {fileID: 2365620133187888045}
-  ringoutThreshold: 10
+  ringoutThreshold: 100
   knockbackPercentText: {fileID: 8965156429979443884}
 --- !u!114 &2407098252663767098
 MonoBehaviour:
@@ -525,8 +538,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1effd170cfec10b419fdf3237fae74ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargeSpeed: 7
-  walkSpeed: 4
+  RunSpeed: 8
+  walkSpeed: 6
   state: 2
   knockback: 2
   _agent: {fileID: 2365620133187888045}
