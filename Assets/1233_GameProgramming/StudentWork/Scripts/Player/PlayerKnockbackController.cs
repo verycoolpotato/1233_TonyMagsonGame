@@ -14,6 +14,7 @@ public class PlayerKnockbackController : KnockbackManager
 
         if (collision.gameObject.CompareTag("OffMap"))
         {
+            //This doesnt work if the game was loaded from the gamerunScene. Replace with full system later
             SceneManager.LoadScene("World");
 
         }
@@ -25,6 +26,7 @@ public class PlayerKnockbackController : KnockbackManager
         var enemy = collision.gameObject.GetComponent<KnockbackStats>();
         if (enemy != null)
         {
+            //calls the damaged function on the knockback manager
             Damaged(enemy.transform, enemy.knockback * velocity);
 
             //message will be recieved by UI script

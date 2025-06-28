@@ -16,9 +16,9 @@ public class EnemyKnockbackController : KnockbackManager
     {
         if (collision.gameObject.CompareTag("Projectile"))
         {
-            enemyDamaged(collision);
+            EnemyDamaged(collision);
 
-            //Alert other scripts on this object that it has been hit
+            //Alert other scripts on this object that it has been hit - used by SnowmanMover script
             SendMessage("KnockedBack");
         }
 
@@ -29,15 +29,13 @@ public class EnemyKnockbackController : KnockbackManager
         }
     }
 
-    private void enemyDamaged(Collision collision)
+
+    private void EnemyDamaged(Collision collision)
     {
         // Get knockback amount
         BulletStat stats = collision.gameObject.GetComponent<BulletStat>();
-        if (stats == null)
-        {
-            Debug.LogWarning("Projectile hit but has no bullet stat");
-            return;
-        }
+
+    
 
         // If knockback is over threshold, disable navmesh permanently and unlock constraints
         if (knockbackPercentage >= ringoutThreshold)
@@ -57,7 +55,7 @@ public class EnemyKnockbackController : KnockbackManager
 
         UpdateUI();
 
-        // Only run one coroutine at a time
+        // Only run one coroutine at a time (prevents breaking everything)
         if (reenableCoroutine != null)
         {
             StopCoroutine(reenableCoroutine);
@@ -66,13 +64,14 @@ public class EnemyKnockbackController : KnockbackManager
         reenableCoroutine = StartCoroutine(reenableWhenStopped());
     }
 
-    // Re-enable the NavMeshAgent once the enemy has slowed down
+    // Re-enable the NavMeshAgent once the enemy has stopped moving
     private IEnumerator reenableWhenStopped()
     {
-        yield return new WaitUntil(() => rb.velocity.magnitude < 0.1f);
+        yield return new WaitUntil(() => rb.velocity.magnitude < 0.3f);
         navMeshAgent.enabled = true;
     }
 
+    //updates the enemy percentage counter ("Health bar")
     private void UpdateUI()
     {
         knockbackPercentText.text = knockbackPercentage.ToString() + "%";
