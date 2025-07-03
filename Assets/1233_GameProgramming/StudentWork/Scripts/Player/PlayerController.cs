@@ -304,10 +304,6 @@ namespace StudentWork
             return Mathf.Clamp(lfAngle, lfMin, lfMax);
         }
 
-       
-
-       
-
         private void OnFootstep(AnimationEvent animationEvent)
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)

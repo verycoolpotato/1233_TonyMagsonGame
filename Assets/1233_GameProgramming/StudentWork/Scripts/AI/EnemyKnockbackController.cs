@@ -12,6 +12,8 @@ public class EnemyKnockbackController : KnockbackManager
 
     private Coroutine reenableCoroutine;
 
+    //Much of the enemy knockback behaviour doesnt work quite as intended - needs revision
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Projectile"))
