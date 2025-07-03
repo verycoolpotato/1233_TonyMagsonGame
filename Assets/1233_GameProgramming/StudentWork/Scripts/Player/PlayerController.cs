@@ -20,108 +20,108 @@ namespace StudentWork
     {
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
-        public float MoveSpeed = 2.0f;
+        public float moveSpeed = 2.0f;
 
         [Tooltip("Sprint speed of the character in m/s")]
-        public float SprintSpeed = 5.335f;
+        public float sprintSpeed = 5.335f;
 
         [Tooltip("How fast the character turns to face movement direction")]
         [Range(0.0f, 0.3f)]
-        public float RotationSmoothTime = 0.12f;
+        public float rotationSmoothTime = 0.12f;
 
         [Tooltip("Acceleration and deceleration")]
-        public float SpeedChangeRate = 10.0f;
+        public float speedChangeRate = 10.0f;
 
         
-        public AudioClip LandingAudioClip;
-        public AudioClip[] FootstepAudioClips;
-        [Range(0, 1)] public float FootstepAudioVolume = 0.5f;
+        public AudioClip landingAudioClip;
+        public AudioClip[] footstepAudioClips;
+        [Range(0, 1)] public float footstepAudioVolume = 0.5f;
 
         [SerializeField] private AudioMixer audioMixer;
 
         [Space(10)]
         [Tooltip("The height the player can Jump")]
-        public float JumpHeight = 1.2f;
+        public float jumpHeight = 1.2f;
 
         [Header("Cinemachine")]
-        [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
-        public GameObject CinemachineCameraTarget;
+        [Tooltip("The follow target set in the Cinemachine Virtual Camera that the thirdPersonCamera will follow")]
+        public GameObject cinemachineCameraTarget;
 
-        [Tooltip("How far in degrees can you Move the camera up")]
-        public float TopClamp = 70.0f;
+        [Tooltip("How far in degrees can you Move the thirdPersonCamera up")]
+        public float topClamp = 70.0f;
 
-        [Tooltip("How far in degrees can you Move the camera down")]
-        public float BottomClamp = -30.0f;
+        [Tooltip("How far in degrees can you Move the thirdPersonCamera down")]
+        public float bottomClamp = -30.0f;
 
-        [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
-        public float CameraAngleOverride = 0.0f;
+        [Tooltip("Additional degress to override the thirdPersonCamera. Useful for fine tuning thirdPersonCamera position when locked")]
+        public float cameraAngleOverride = 0.0f;
 
-        [Tooltip("For locking the camera position on all axis")]
-        public bool LockCameraPosition = false;
+        [Tooltip("For locking the thirdPersonCamera position on all axis")]
+        public bool lockCameraPosition = false;
 
         [Header("Cameras")]
 
         [Tooltip("Player Standard Camera")]
-        [SerializeField] private GameObject _mainCamera;
+        [SerializeField] private GameObject thirdPersonCamera;
 
         [Tooltip("Player Camera when aiming")]
-        [SerializeField] private GameObject _aimCamera;
+        [SerializeField] private GameObject aimCamera;
 
         [Tooltip("Main Camera (Always Active)")]
-        [SerializeField] private Camera _camera;
+        [SerializeField] private Camera mainCamera;
 
         [Tooltip("This Animator")]
-        [SerializeField] private Animator _animator;
+        [SerializeField] private Animator animator;
 
         [Tooltip("This Rigidbody")]
-        [SerializeField] private Rigidbody _rb;
+        [SerializeField] private Rigidbody rb;
 
 
         // cinemachine
-        private float _cinemachineTargetYaw;
-        private float _cinemachineTargetPitch;
+        private float cinemachineTargetYaw;
+        private float cinemachineTargetPitch;
 
         // player
-        private float _speed;
-        private float _animationBlend;
-        private float _targetRotation = 0.0f;
-        private float _rotationVelocity;
-        private float _verticalVelocity;
+        private float speed;
+        private float animationBlend;
+        private float targetRotation = 0.0f;
+        private float rotationVelocity;
+        
        
 
         
 
         // animation IDs
-        private int _animIDSpeed;
+        private int animIDSpeed;
    
-        private int _animIDMotionSpeed;
+        private int animIDMotionSpeed;
       
-        private int _animAxisX;
-        private int _animAxisZ;
-        private int _animIDRunning;
+        private int animAxisX;
+        private int animAxisZ;
+        private int animIDRunning;
        
 
 #if ENABLE_INPUT_SYSTEM
-       [SerializeField] private PlayerInput _playerInput;
+       [SerializeField] private PlayerInput playerInput;
 #endif
       
-        [SerializeField] private PlayerInputs _input;
+        [SerializeField] private PlayerInputs input;
 
         //Disables standard player rotation while walking
-        public bool Strafing;
+        public bool strafing;
 
       
 
-        private const float _threshold = 0.01f;
+        private const float threshold = 0.01f;
 
-        private bool _hasAnimator;
+        private bool hasAnimator;
 
         private bool IsCurrentDeviceMouse
         {
             get
             {
 #if ENABLE_INPUT_SYSTEM
-                return _playerInput.currentControlScheme == "KeyboardMouse";
+                return playerInput.currentControlScheme == "KeyboardMouse";
 #else
 				return false;
 #endif
@@ -137,9 +137,9 @@ namespace StudentWork
         {
             
 
-            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+            cinemachineTargetYaw = cinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
-            _hasAnimator = TryGetComponent(out _animator);
+            hasAnimator = TryGetComponent(out animator);
 
             AssignAnimationIDs();
 
@@ -150,9 +150,9 @@ namespace StudentWork
         private void Update()
         {
        
-            _hasAnimator = TryGetComponent(out _animator);
+            hasAnimator = TryGetComponent(out animator);
 
-            AimState(_input.Aim);
+            AimState(input.Aim);
         }
 
         private void LateUpdate()
@@ -164,44 +164,44 @@ namespace StudentWork
         {
             //Add falling animation
 
-            _animIDRunning = Animator.StringToHash("Running");
-            _animIDSpeed = Animator.StringToHash("Speed");
+            animIDRunning = Animator.StringToHash("Running");
+            animIDSpeed = Animator.StringToHash("Speed");
             
           
-            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
            
-            _animAxisX = Animator.StringToHash("X");
-            _animAxisZ = Animator.StringToHash("Z");
+            animAxisX = Animator.StringToHash("X");
+            animAxisZ = Animator.StringToHash("Z");
         }
 
        
        
         private void CameraRotation()
         {
-            // if there is an input and camera position is not fixed
-            if (_input.Look.sqrMagnitude >= _threshold && !LockCameraPosition)
+            // if there is an input and thirdPersonCamera position is not fixed
+            if (input.Look.sqrMagnitude >= threshold && !lockCameraPosition)
             {
                 //Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                _cinemachineTargetYaw += _input.Look.x * deltaTimeMultiplier;
-                _cinemachineTargetPitch += _input.Look.y * deltaTimeMultiplier;
+                cinemachineTargetYaw += input.Look.x * deltaTimeMultiplier;
+                cinemachineTargetPitch += input.Look.y * deltaTimeMultiplier;
             }
 
             // clamp our rotations so our values are limited 360 degrees
-            _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-            _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+            cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
+            cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
 
             // Cinemachine will follow this target
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-                _cinemachineTargetYaw, 0.0f);
+            cinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch + cameraAngleOverride,
+                cinemachineTargetYaw, 0.0f);
         }
 
 
-        //Swaps to aiming camera when recieving aim input
+        //Swaps to aiming thirdPersonCamera when recieving aim input
         private void AimState(bool AimButton)
         {
-            _aimCamera.SetActive(AimButton);
+            aimCamera.SetActive(AimButton);
             
         }
 
@@ -210,20 +210,20 @@ namespace StudentWork
         {
            
             // set target speed based on Move speed, Sprint speed and if Sprint is pressed
-            float targetSpeed = _input.Sprint ? SprintSpeed : MoveSpeed;
+            float targetSpeed = input.Sprint ? sprintSpeed : moveSpeed;
 
-            _animator.SetBool(_animIDRunning, _input.Sprint);
+            animator.SetBool(animIDRunning, input.Sprint);
           
             // if there is no input, set the target speed to 0
-            if (_input.Move == Vector2.zero) targetSpeed = 0.0f;
+            if (input.Move == Vector2.zero) targetSpeed = 0.0f;
 
             // a reference to the players current horizontal velocity
-            float currentHorizontalSpeed = new Vector3(_rb.velocity.x, _rb.velocity.y, _rb.velocity.z).magnitude;
+            float currentHorizontalSpeed = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z).magnitude;
 
            
 
             float speedOffset = 0.1f;
-            float inputMagnitude = _input.analogMovement ? _input.Move.magnitude : 1f;
+            float inputMagnitude = input.analogMovement ? input.Move.magnitude : 1f;
 
             // accelerate or decelerate to target speed
             if (currentHorizontalSpeed < targetSpeed - speedOffset ||
@@ -231,67 +231,67 @@ namespace StudentWork
             {
                 // creates curved result rather than a linear one giving a more organic speed change
                 // note T in Lerp is clamped, so we don't need to clamp our speed
-                _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-                        Time.fixedDeltaTime * SpeedChangeRate);
+                speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
+                        Time.fixedDeltaTime * speedChangeRate);
 
 
                 // round speed to 3 decimal places
-                _speed = Mathf.Round(_speed * 1000f) / 1000f;
+                speed = Mathf.Round(speed * 1000f) / 1000f;
             }
             else
             {
-                _speed = targetSpeed;
+                speed = targetSpeed;
             }
 
             // normalise input direction
-            Vector3 inputDirection = new Vector3(_input.Move.x, 0.0f, _input.Move.y).normalized;
+            Vector3 inputDirection = new Vector3(input.Move.x, 0.0f, input.Move.y).normalized;
 
 
 
             //determine direction to Move
-                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                                  _mainCamera.transform.eulerAngles.y;
+                targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
+                                  mainCamera.transform.eulerAngles.y;
 
             
             
             //switch player rotation target when performing certain actions
             float LookDirection;
 
-            if (_input.Sprint)
-                LookDirection = _targetRotation;
+            if (input.Sprint)
+                LookDirection = targetRotation;
             else
-                LookDirection = _camera.transform.rotation.eulerAngles.y;
+                LookDirection = mainCamera.transform.rotation.eulerAngles.y;
             
 
 
             //rotation player should be facing
-            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, LookDirection, ref _rotationVelocity,
-                    RotationSmoothTime);
+            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, LookDirection, ref rotationVelocity,
+                    rotationSmoothTime);
 
                
                 
-            // rotate to face input direction relative to camera position
+            // rotate to face input direction relative to thirdPersonCamera position
              transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 
         
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward  * Time.fixedDeltaTime * _speed;
+            Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward  * Time.fixedDeltaTime * speed;
             
 
             // Apply force if there is input - MAIN MOVEMENT CONTROL
-            if (_input.Move.x != 0 || _input.Move.y != 0)
+            if (input.Move.x != 0 || input.Move.y != 0)
             {
-                _rb.AddForce(targetDirection,ForceMode.Acceleration);
+                rb.AddForce(targetDirection,ForceMode.Acceleration);
             }
             
 
             // update animator if using character
-            if (_hasAnimator)
+            if (hasAnimator)
             {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                animator.SetFloat(animIDSpeed, animationBlend);
+                animator.SetFloat(animIDMotionSpeed, inputMagnitude);
 
-                _animator.SetFloat(_animAxisX, inputDirection.x, 0.1f, Time.deltaTime);
-                _animator.SetFloat(_animAxisZ, inputDirection.z, 0.1f, Time.deltaTime);
+                animator.SetFloat(animAxisX, inputDirection.x, 0.1f, Time.deltaTime);
+                animator.SetFloat(animAxisZ, inputDirection.z, 0.1f, Time.deltaTime);
             }
         }
        
@@ -308,10 +308,10 @@ namespace StudentWork
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                if (FootstepAudioClips.Length > 0)
+                if (footstepAudioClips.Length > 0)
                 {
-                    var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_rb.transform.position), FootstepAudioVolume);
+                    var index = Random.Range(0, footstepAudioClips.Length);
+                    AudioSource.PlayClipAtPoint(footstepAudioClips[index], transform.TransformPoint(rb.transform.position), footstepAudioVolume);
                 }
             }
         }
@@ -320,7 +320,7 @@ namespace StudentWork
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_rb.transform.position), FootstepAudioVolume);
+                AudioSource.PlayClipAtPoint(landingAudioClip, transform.TransformPoint(rb.transform.position), footstepAudioVolume);
             }
         }
     }

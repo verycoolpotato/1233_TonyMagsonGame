@@ -5,24 +5,22 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public static GameManager instance { get; private set; }
 
     [SerializeField] private CharacterManager characterManager;
     [SerializeField] private LevelManager levelManager;
 
-    [Tooltip("Gameobjects to add to the level over time")]
-    [SerializeField] private GameObject[] MapFeatures;
+    
 
-    private int featureNumber;
-
+    
     private void Awake()
     {
-       if(Instance != null && Instance != this)
+       if(instance != null && instance != this)
         {
             Destroy(gameObject);
             return;
         }
-       Instance = this;
+       instance = this;
         DontDestroyOnLoad(gameObject);
 
       InitializeGame();

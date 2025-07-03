@@ -12,7 +12,6 @@ namespace StudentWork
 		public Vector2 Look;
 		public bool Jump;
 		public bool Sprint;
-		public bool Crouch;
 		public bool Aim;
 		public bool Shoot;
 
@@ -41,10 +40,7 @@ namespace StudentWork
 		{
 			//JumpInput(value.isPressed);
 		}
-		public void OnCrouch(InputValue value)
-		{
-			CrouchInput();
-		}
+		
 
 		public void OnSprint(InputValue value)
 		{
@@ -60,10 +56,7 @@ namespace StudentWork
 		}
 
 #endif
-		public void CrouchInput()
-		{
-			Crouch = !Crouch;
-		}
+		
 		public void AimInput(bool newAimState)
 		{
 			Aim = newAimState;

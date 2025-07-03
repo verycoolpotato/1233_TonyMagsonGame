@@ -18,7 +18,7 @@ namespace StudentWork
         [SerializeField] private TextMeshProUGUI knockbackPercentDisplay;
 
         [Tooltip("Player input reference")]
-        [SerializeField] private PlayerInputs _input;
+        [SerializeField] private PlayerInputs input;
 
         [Tooltip("GameTimer reference")]
         [SerializeField] private TextMeshProUGUI timerText;
@@ -40,7 +40,7 @@ namespace StudentWork
         //Show crosshair when player is aiming
         private void CrosshairVisible()
         {
-            crosshair.enabled = _input.Aim;
+            crosshair.enabled = input.Aim;
         }
 
         //Called by player knockback controller

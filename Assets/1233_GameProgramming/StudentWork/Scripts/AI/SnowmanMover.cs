@@ -15,7 +15,7 @@ public class SnowmanMover : MonoBehaviour
     }
 
     [Tooltip("How fast does the enemy move when in the charge state")]
-    [SerializeField] private float RunSpeed;
+    [SerializeField] private float runSpeed;
 
     [Tooltip("How fast does the enemy move when in the ice grab, ice throw states")]
     [SerializeField] private float walkSpeed;
@@ -27,41 +27,43 @@ public class SnowmanMover : MonoBehaviour
     [SerializeField] public float knockback;
 
     [Tooltip("This Navmesh Agent")]
-    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private NavMeshAgent agent;
 
     [Tooltip("This Animator")]
-    [SerializeField] private Animator _animator;
+    [SerializeField] private Animator animator;
 
     [Tooltip("Static ice chunk that appears above enemy")]
-    [SerializeField] private GameObject IceObj;
+    [SerializeField] private GameObject iceObj;
 
- 
+
+    [SerializeField] private GameObject hitParticle;
+
     private bool carryingIce;
 
     //Position to move towards
     private Vector3 targetPos;
 
     //Direction of movement used by animator
-    private Vector3 MoveDirection;
+    private Vector3 moveDirection;
 
-    private float CountFrom = 2;
+    private float countFrom = 2;
     private float time;
 
-    private int _animAxisX;
-    private int _animHit;
-    private int _animAxisZ;
+    private int animAxisX;
+    private int animHit;
+    private int animAxisZ;
 
     //Is in idle state?
-    private bool Idle;
+    private bool idle;
 
 
     private void Start()
     {
-        Idle = true;
+        idle = true;
         //Randomise state every x seconds
         
         SetAnimID();
-        _agent.updateRotation = true;
+        agent.updateRotation = true;
        
     }
     private void Update()
@@ -69,18 +71,18 @@ public class SnowmanMover : MonoBehaviour
         AnimateCharacter();
 
         //if possible move towards player
-        if(_agent != null && _agent.enabled)
+        if(agent != null && agent.enabled)
         {
-             _agent.SetDestination(targetPos);
+             agent.SetDestination(targetPos);
         }
         
         
         targetPos = PlayerLocatorSingleton.Instance.transform.position;
 
         //Check for player in range and idle state
-        if (!Idle)
+        if (!idle)
         {
-            StateTimer(CountFrom);
+            StateTimer(countFrom);
             StateSwitcher();
         }
         else
@@ -103,30 +105,30 @@ public class SnowmanMover : MonoBehaviour
     //Assign anim ids on start
     private void SetAnimID()
     {
-        _animAxisX = Animator.StringToHash("X");
-        _animAxisZ = Animator.StringToHash("Z");
-        _animHit = Animator.StringToHash("Hit");
+        animAxisX = Animator.StringToHash("X");
+        animAxisZ = Animator.StringToHash("Z");
+        animHit = Animator.StringToHash("Hit");
     }
    
     //set walking anims based on x and z of movedirection
     private void AnimateCharacter()
     {
-        _animator.SetFloat(_animAxisX, MoveDirection.x, 0.1f, Time.deltaTime);
-        _animator.SetFloat(_animAxisZ, MoveDirection.z, 0.1f, Time.deltaTime);
+        animator.SetFloat(animAxisX, moveDirection.x, 0.1f, Time.deltaTime);
+        animator.SetFloat(animAxisZ, moveDirection.z, 0.1f, Time.deltaTime);
     }
     
 
     //Randomise state when called
     private void ShuffleState()
     {
-        int newState = Random.Range(0, 3);
+        int newState = Random.Range(0, 2);
         state = (AIStates)newState;
     }
 
     //Prevent multiple states from being active
     private void StateSwitcher()
     {
-        if (PlayerLocatorSingleton.Instance != null && _agent.enabled)
+        if (PlayerLocatorSingleton.Instance != null && agent.enabled)
         {
             switch (state)
             {
@@ -151,13 +153,13 @@ public class SnowmanMover : MonoBehaviour
     private void IdleState()
     {
         Vector3 distance =
-            PlayerLocatorSingleton.Instance.transform.position - _agent.transform.position;
+            PlayerLocatorSingleton.Instance.transform.position - agent.transform.position;
 
-        Idle = distance.magnitude > 15;
+        idle = distance.magnitude > 15;
 
-        _agent.speed = 0;
-        MoveDirection.z = 0;
-        MoveDirection.x = 0;
+        agent.speed = 0;
+        moveDirection.z = 0;
+        moveDirection.x = 0;
 
     }
 
@@ -165,37 +167,37 @@ public class SnowmanMover : MonoBehaviour
     private void ChargeState()
     {
 
-            _agent.speed = RunSpeed;
+            agent.speed = runSpeed;
 
-        CountFrom = 4;
+        countFrom = 4;
 
-        MoveDirection.z = 1; 
-        MoveDirection.x = 0;
+        moveDirection.z = 1; 
+        moveDirection.x = 0;
     }
 
     //if not carrying ice pick up ice
     private void IceGrab()
     {
-        MoveDirection.z = 1;
-        MoveDirection.x = 0;
-        _agent.speed = walkSpeed;
-        CountFrom = 1;
+        moveDirection.z = 1;
+        moveDirection.x = 0;
+        agent.speed = walkSpeed;
+        countFrom = 1;
 
         if (!carryingIce)
         {
             carryingIce = true;
           
         }
-        IceObj.SetActive(carryingIce);
+        iceObj.SetActive(carryingIce);
     }
 
     //if carrying ice then throw ice at player
     private void IceThrow()
     {
-        MoveDirection.z = 1;
-        MoveDirection.x = 0;
-        _agent.speed = walkSpeed;
-        CountFrom = 2;
+        moveDirection.z = 1;
+        moveDirection.x = 0;
+        agent.speed = walkSpeed;
+        countFrom = 2;
 
 
         if (carryingIce)
@@ -203,22 +205,26 @@ public class SnowmanMover : MonoBehaviour
             SendMessage("ThrowIce");
             carryingIce = false;
         }
-        IceObj.SetActive(carryingIce);
+        iceObj.SetActive(carryingIce);
     }
    
     //recieves from enemy knockback manager when hit by projectile
     public void KnockedBack()
     {
         //End idle state
-        Idle = false;
-        _agent.speed = walkSpeed;
+        idle = false;
+        agent.speed = walkSpeed;
 
         //Stop walking animation
-        MoveDirection = Vector3.zero;
+        moveDirection = Vector3.zero;
+
+        Instantiate(hitParticle,transform.position,Quaternion.identity);
 
         //Play hit animation
-        _animator.SetTrigger(_animHit);
+        animator.SetTrigger(animHit);
         
     }
    
+    
+
 }
