@@ -51,7 +51,7 @@ public class SnowmanMover : MonoBehaviour
 
     private int animAxisX;
     private int animHit;
-    private int animAxisZ;
+    
 
     //Is in idle state?
     private bool idle;
@@ -106,7 +106,7 @@ public class SnowmanMover : MonoBehaviour
     private void SetAnimID()
     {
         animAxisX = Animator.StringToHash("X");
-        animAxisZ = Animator.StringToHash("Z");
+        
         animHit = Animator.StringToHash("Hit");
     }
    
@@ -114,7 +114,7 @@ public class SnowmanMover : MonoBehaviour
     private void AnimateCharacter()
     {
         animator.SetFloat(animAxisX, moveDirection.x, 0.1f, Time.deltaTime);
-        animator.SetFloat(animAxisZ, moveDirection.z, 0.1f, Time.deltaTime);
+       
     }
     
 
@@ -158,7 +158,7 @@ public class SnowmanMover : MonoBehaviour
         idle = distance.magnitude > 15;
 
         agent.speed = 0;
-        moveDirection.z = 0;
+       
         moveDirection.x = 0;
 
     }
@@ -171,15 +171,15 @@ public class SnowmanMover : MonoBehaviour
 
         countFrom = 4;
 
-        moveDirection.z = 1; 
-        moveDirection.x = 0;
+        
+        moveDirection.x = 1;
     }
 
     //if not carrying ice pick up ice
     private void IceGrab()
     {
-        moveDirection.z = 1;
-        moveDirection.x = 0;
+       
+        moveDirection.x = 1;
         agent.speed = walkSpeed;
         countFrom = 1;
 
@@ -194,8 +194,8 @@ public class SnowmanMover : MonoBehaviour
     //if carrying ice then throw ice at player
     private void IceThrow()
     {
-        moveDirection.z = 1;
-        moveDirection.x = 0;
+       
+        moveDirection.x = 1;
         agent.speed = walkSpeed;
         countFrom = 2;
 

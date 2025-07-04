@@ -232,21 +232,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3263487012859972863, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: footstepAudioClips.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263487012859972863, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: footstepAudioClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
+    - target: {fileID: 3263487012859972863, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: footstepAudioClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 85016e0f2b01da248b9663dd49a161b0, type: 3}
+    - target: {fileID: 3263487012859972863, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: footstepAudioClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 186de84b3207156479abe98f4958fed0, type: 3}
+    - target: {fileID: 3263487012859972863, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: footstepAudioClips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1a91fcd19acf1e54bba0945d9f390849, type: 3}
+    - target: {fileID: 3263487012859972863, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: footstepAudioClips.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 14e8a8d2158bec840b56c54f5266e692, type: 3}
+    - target: {fileID: 3263487012859972863, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: footstepAudioClips.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 29841e7d5bbfb5b419c9ad16ca8bc4c1, type: 3}
+    - target: {fileID: 3597619362450688842, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: throwSound
+      value: 
+      objectReference: {fileID: 2369365636641655604, guid: b83060439e4c4784b9f59bc742fe11eb, type: 3}
+    - target: {fileID: 3597619362450688842, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1643651315}
+    - target: {fileID: 6040756962560234049, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8174681602069405556, guid: a1488da85758d83469b90720ac4802b7, type: 3}
       propertyPath: m_Name
       value: PlayerPrefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 8297343854304610804, guid: a1488da85758d83469b90720ac4802b7, type: 3}
-      propertyPath: Lens.FarClipPlane
-      value: 239.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 9006914266196353248, guid: a1488da85758d83469b90720ac4802b7, type: 3}
-      propertyPath: field of view
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 9006914266196353248, guid: a1488da85758d83469b90720ac4802b7, type: 3}
-      propertyPath: far clip plane
-      value: 239.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3924,6 +3952,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 480775427}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!82 &1643651315 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6040756962560234049, guid: a1488da85758d83469b90720ac4802b7, type: 3}
+  m_PrefabInstance: {fileID: 99070609}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1671787716
 GameObject:
   m_ObjectHideFlags: 0
