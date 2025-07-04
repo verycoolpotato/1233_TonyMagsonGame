@@ -10,6 +10,10 @@ public class EnemyKnockbackController : KnockbackManager
 
     [SerializeField] private TextMeshProUGUI knockbackPercentText;
 
+    [SerializeField] private AudioSource damagedAudio;
+
+    [SerializeField] private AudioSource deathAudio;
+
     private Coroutine reenableCoroutine;
 
     //Much of the enemy knockback behaviour doesnt work quite as intended - needs revision
@@ -37,7 +41,7 @@ public class EnemyKnockbackController : KnockbackManager
         // Get knockback amount
         BulletStat stats = collision.gameObject.GetComponent<BulletStat>();
 
-    
+        damagedAudio.Play();
 
         // If knockback is over threshold, disable navmesh permanently and unlock constraints
         if (knockbackPercentage >= ringoutThreshold)
@@ -45,6 +49,8 @@ public class EnemyKnockbackController : KnockbackManager
             rb.constraints = RigidbodyConstraints.None;
             navMeshAgent.enabled = false;
            
+            deathAudio.Play();
+
             knockbackPercentText.text = "";
             return;
         }

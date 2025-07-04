@@ -14,8 +14,10 @@ public class PlayerKnockbackController : KnockbackManager
 
         if (collision.gameObject.CompareTag("OffMap"))
         {
-            //This doesnt work if the game was loaded from the gamerunScene. Replace with full system later
-            SceneManager.LoadScene("World");
+           
+            gameObject.transform.position = Vector3.zero;
+            knockbackPercentage = 0;
+            GameManager.instance.RestartLevel();
 
         }
     }

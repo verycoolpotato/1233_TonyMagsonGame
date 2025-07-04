@@ -35,6 +35,8 @@ public class SnowmanMover : MonoBehaviour
     [Tooltip("Static ice chunk that appears above enemy")]
     [SerializeField] private GameObject iceObj;
 
+   
+
 
     [SerializeField] private GameObject hitParticle;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance { get; private set; }
+    public static GameManager instance;
 
     [SerializeField] private CharacterManager characterManager;
     [SerializeField] private LevelManager levelManager;
@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
+      
        if(instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -32,7 +33,13 @@ public class GameManager : MonoBehaviour
         characterManager.SpawnCharacter();
     }
     
-   
+   public void RestartLevel()
+    {
+        levelManager.UnloadScene("World");
+        levelManager.LoadLevelAdditively("World");
 
-   
+        //characterManager.SpawnCharacter();
+    }
+
+    
 }

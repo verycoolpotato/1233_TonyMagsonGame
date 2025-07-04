@@ -7,6 +7,7 @@ public class LevelManager : MonoBehaviour
 {
     public void LoadLevel(string LevelName)
     {
+        
         SceneManager.LoadScene(LevelName);
     }
 
@@ -14,5 +15,8 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.LoadScene(LevelName,LoadSceneMode.Additive);
     }
-   
+    public void UnloadScene(string LevelName)
+    {
+        SceneManager.UnloadSceneAsync(LevelName);
+    }
 }

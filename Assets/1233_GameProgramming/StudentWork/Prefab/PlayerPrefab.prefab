@@ -181,7 +181,13 @@ MonoBehaviour:
   rotationSmoothTime: 0.12
   speedChangeRate: 10
   landingAudioClip: {fileID: 0}
-  footstepAudioClips: []
+  footstepAudioClips:
+  - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
+  - {fileID: 8300000, guid: 85016e0f2b01da248b9663dd49a161b0, type: 3}
+  - {fileID: 8300000, guid: 186de84b3207156479abe98f4958fed0, type: 3}
+  - {fileID: 8300000, guid: 1a91fcd19acf1e54bba0945d9f390849, type: 3}
+  - {fileID: 8300000, guid: 14e8a8d2158bec840b56c54f5266e692, type: 3}
+  - {fileID: 8300000, guid: 29841e7d5bbfb5b419c9ad16ca8bc4c1, type: 3}
   footstepAudioVolume: 0.5
   audioMixer: {fileID: 0}
   jumpHeight: 1.2
@@ -387,7 +393,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.113
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
