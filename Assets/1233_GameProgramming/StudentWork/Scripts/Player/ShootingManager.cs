@@ -26,7 +26,7 @@ namespace StudentWork
 
         [SerializeField] private AudioSource audioSource;
 
-        private Camera mainCamera;
+        [SerializeField] private Camera mainCamera;
 
         private int animIDThrow;
 
@@ -35,7 +35,7 @@ namespace StudentWork
         private void Awake()
         {
             animIDThrow = Animator.StringToHash("Throw");
-            mainCamera = Camera.main;
+           
         }
         private void Update()
         {

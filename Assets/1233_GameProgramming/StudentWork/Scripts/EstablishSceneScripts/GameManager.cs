@@ -24,21 +24,24 @@ public class GameManager : MonoBehaviour
        instance = this;
         DontDestroyOnLoad(gameObject);
 
-      InitializeGame();
+     
        
     }
-    private void InitializeGame()
+    public void InitializeGame()
     {
+        levelManager.UnloadScene("MainMenu");
         levelManager.LoadLevelAdditively("World");
         characterManager.SpawnCharacter();
+        
     }
+    
     
    public void RestartLevel()
     {
         levelManager.UnloadScene("World");
         levelManager.LoadLevelAdditively("World");
 
-        //characterManager.SpawnCharacter();
+        
     }
 
     
