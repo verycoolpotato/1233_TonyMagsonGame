@@ -76,6 +76,8 @@ namespace StudentWork
         [Tooltip("This Rigidbody")]
         [SerializeField] private Rigidbody rb;
 
+        [Tooltip("What layers the character uses as ground")]
+        public LayerMask groundLayers;
 
         // cinemachine
         private float cinemachineTargetYaw;
@@ -86,23 +88,24 @@ namespace StudentWork
         private float animationBlend;
         private float targetRotation = 0.0f;
         private float rotationVelocity;
-        
-       
 
-        
+
+
+        public bool Grounded = true;
 
         // animation IDs
         private int animIDSpeed;
    
         private int animIDMotionSpeed;
-      
+        private int _animIDGrounded;
         private int animAxisX;
         private int animAxisZ;
         private int animIDRunning;
+
        
 
 #if ENABLE_INPUT_SYSTEM
-       [SerializeField] private PlayerInput playerInput;
+        [SerializeField] private PlayerInput playerInput;
 #endif
       
         [SerializeField] private PlayerInputs input;
@@ -146,10 +149,24 @@ namespace StudentWork
            
            
         }
+        private void GroundedCheck()
+        {
+            // set sphere position, with offset
+            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - 0.28f,
+                transform.position.z);
+            Grounded = Physics.CheckSphere(spherePosition, 0.28f, groundLayers,
+                QueryTriggerInteraction.Ignore);
 
+            // update animator if using character
+            if (animator != null)
+            {
+                animator.SetBool(_animIDGrounded, Grounded);
+            }
+        }
         private void Update()
         {
-       
+            GroundedCheck();
+
             hasAnimator = TryGetComponent(out animator);
 
             AimState(input.Aim);
@@ -166,8 +183,8 @@ namespace StudentWork
 
             animIDRunning = Animator.StringToHash("Running");
             animIDSpeed = Animator.StringToHash("Speed");
-            
-          
+            _animIDGrounded = Animator.StringToHash("Grounded");
+
             animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
            
             animAxisX = Animator.StringToHash("X");

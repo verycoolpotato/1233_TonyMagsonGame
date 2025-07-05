@@ -43,18 +43,6 @@ public class EnemyKnockbackController : KnockbackManager
 
         damagedAudio.Play();
 
-        // If knockback is over threshold, disable navmesh permanently and unlock constraints
-        if (knockbackPercentage >= ringoutThreshold)
-        {
-            rb.constraints = RigidbodyConstraints.None;
-            navMeshAgent.enabled = false;
-           
-            deathAudio.Play();
-
-            knockbackPercentText.text = "";
-            return;
-        }
-
         //disable navmesh while being knocked back
         navMeshAgent.enabled = false;
 
@@ -62,6 +50,29 @@ public class EnemyKnockbackController : KnockbackManager
         Damaged(collision.transform, stats.knockback);
 
         UpdateUI();
+
+        // If knockback is over threshold, disable navmesh permanently and unlock constraints
+        if (knockbackPercentage >= ringoutThreshold)
+        {
+            rb.constraints = RigidbodyConstraints.None;
+           
+
+           
+            deathAudio.Play();
+
+            knockbackPercentage = 1000;
+            
+            Damaged(collision.transform, stats.knockback);
+
+            knockbackPercentText.text = "";
+            return;
+        }
+
+        
+
+        
+
+       
 
         // Only run one coroutine at a time (prevents breaking everything)
         if (reenableCoroutine != null)

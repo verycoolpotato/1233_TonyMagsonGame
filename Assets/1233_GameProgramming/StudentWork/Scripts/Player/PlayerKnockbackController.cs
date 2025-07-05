@@ -17,7 +17,15 @@ public class PlayerKnockbackController : KnockbackManager
            
             gameObject.transform.position = Vector3.zero;
             knockbackPercentage = 0;
-            GameManager.instance.RestartLevel();
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.RestartLevel();
+            }
+            else
+            {
+                Debug.Log("GameManager is null, ensure the game was started from the GameRunScene");
+            }
+            
 
         }
     }
@@ -32,7 +40,7 @@ public class PlayerKnockbackController : KnockbackManager
             Damaged(enemy.transform, enemy.knockback * velocity);
 
             //message will be recieved by UI script
-            SendMessage("UpdateKnockbackNumber",Mathf.Round(knockbackPercentage) * 3);
+            SendMessage("UpdateKnockbackNumber",Mathf.Round(knockbackPercentage) * 1);
         }
     }
 

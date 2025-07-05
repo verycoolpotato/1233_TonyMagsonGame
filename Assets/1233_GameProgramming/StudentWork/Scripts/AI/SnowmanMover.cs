@@ -123,7 +123,7 @@ public class SnowmanMover : MonoBehaviour
     //Randomise state when called
     private void ShuffleState()
     {
-        int newState = Random.Range(0, 2);
+        int newState = Random.Range(0, 3);
         state = (AIStates)newState;
     }
 
