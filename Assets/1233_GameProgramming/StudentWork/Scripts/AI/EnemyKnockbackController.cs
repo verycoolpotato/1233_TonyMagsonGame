@@ -86,7 +86,7 @@ public class EnemyKnockbackController : KnockbackManager
     // Re-enable the NavMeshAgent once the enemy has stopped moving
     private IEnumerator reenableWhenStopped()
     {
-        yield return new WaitUntil(() => rb.velocity.magnitude < 0.3f);
+        yield return new WaitUntil(() => rb.velocity.magnitude < 0.2f);
         navMeshAgent.enabled = true;
     }
 
