@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
+using UnityEngine.Rendering;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -88,7 +89,7 @@ namespace StudentWork
         private float animationBlend;
         private float targetRotation = 0.0f;
         private float rotationVelocity;
-
+        private Vector3 lastGroundedPosition;
 
 
         public bool Grounded = true;
@@ -146,15 +147,13 @@ namespace StudentWork
 
             AssignAnimationIDs();
 
-           
-           
         }
         private void GroundedCheck()
         {
             // set sphere position, with offset
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - 0.28f,
                 transform.position.z);
-            Grounded = Physics.CheckSphere(spherePosition, 0.28f, groundLayers,
+            Grounded = Physics.CheckSphere(spherePosition, 0.1f, groundLayers,
                 QueryTriggerInteraction.Ignore);
 
             // update animator if using character
@@ -163,6 +162,11 @@ namespace StudentWork
                 animator.SetBool(_animIDGrounded, Grounded);
             }
         }
+        public void SnapBackToGround()
+        {
+            transform.position = lastGroundedPosition;
+        }
+
         private void Update()
         {
             GroundedCheck();
@@ -170,6 +174,9 @@ namespace StudentWork
             hasAnimator = TryGetComponent(out animator);
 
             AimState(input.Aim);
+
+            if(Grounded)
+                lastGroundedPosition = transform.position;
         }
 
         private void LateUpdate()

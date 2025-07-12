@@ -14,18 +14,7 @@ public class PlayerKnockbackController : KnockbackManager
 
         if (collision.gameObject.CompareTag("OffMap"))
         {
-           
-            gameObject.transform.position = Vector3.zero;
-            knockbackPercentage = 0;
-            if (GameManager.instance != null)
-            {
-                GameManager.instance.RestartLevel();
-            }
-            else
-            {
-                Debug.Log("GameManager is null, ensure the game was started from the GameRunScene");
-            }
-            
+            GameManager.instance.LoseLife();
 
         }
     }

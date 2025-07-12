@@ -1,3 +1,4 @@
+using StudentWork;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,10 +10,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private CharacterManager characterManager;
     [SerializeField] private LevelManager levelManager;
+    [SerializeField] private int lives;
 
-    
-
-    
     private void Awake()
     {
       
@@ -44,5 +43,27 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void LoseLife()
+    {
+        
+
+        if (lives <= 0)
+        {
+            GameLoseSequence();
+        }
+        else
+        {
+            lives--;
+            PlayerLocatorSingleton.Instance.GetComponent<PlayerController>().SnapBackToGround();
+        }
+    }
+
+    private void GameLoseSequence()
+    {
+        //play game over sequence
+
+        levelManager.UnloadScene("World");
+        levelManager.LoadLevelAdditively("MainMenu");
+    }
     
 }

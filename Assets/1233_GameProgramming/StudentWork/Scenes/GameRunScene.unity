@@ -198,9 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterManager: {fileID: 695498580}
   levelManager: {fileID: 1696856247}
-  MapFeatures:
-  - {fileID: 338063383595314536, guid: df6710781c410e342b241b3eabb121cb, type: 3}
-  - {fileID: 3933246582978722853, guid: 8a1a5f389a0973a489f93f45050eaa56, type: 3}
+  lives: 3
 --- !u!4 &1657092142
 Transform:
   m_ObjectHideFlags: 0

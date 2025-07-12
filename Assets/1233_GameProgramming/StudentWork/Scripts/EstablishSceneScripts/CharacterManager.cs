@@ -6,11 +6,16 @@ public class CharacterManager : MonoBehaviour
 {
     [SerializeField] private GameObject characterPrefab;
 
+    private GameObject characterInstance;
+
     public void SpawnCharacter()
     {
         Vector3 spawnPosition = Vector3.zero;
-        Instantiate(characterPrefab, spawnPosition, Quaternion.identity,transform);
+        characterInstance = Instantiate(characterPrefab, spawnPosition, Quaternion.identity, transform);
     }
-    
-  
+
+    public void DestroyCharacter()
+    {
+        Destroy(characterInstance);
+    }
 }

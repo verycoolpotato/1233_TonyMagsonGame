@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+   
+
     private void Awake()
     {
         LoadLevelAdditively("MainMenu");
@@ -23,4 +25,7 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.UnloadSceneAsync(LevelName);
     }
+
+   
+
 }
