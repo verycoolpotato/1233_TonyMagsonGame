@@ -30,6 +30,8 @@ public class PlayerKnockbackController : KnockbackManager
 
             //message will be recieved by UI script
             SendMessage("UpdateKnockbackNumber",Mathf.Round(knockbackPercentage) * 1);
+
+
         }
     }
 

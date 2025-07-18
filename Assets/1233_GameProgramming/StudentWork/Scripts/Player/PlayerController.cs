@@ -33,6 +33,7 @@ namespace StudentWork
         [Tooltip("Acceleration and deceleration")]
         public float speedChangeRate = 10.0f;
 
+        [SerializeField] private KnockbackManager knockbackManager;
         
         public AudioClip landingAudioClip;
         public AudioClip[] footstepAudioClips;
@@ -136,7 +137,12 @@ namespace StudentWork
             Move();
         }
 
-
+        private void OnEnable()
+        {
+            knockbackManager.knockbackPercentage = 0;
+            transform.position = Vector3.zero;
+            rb.velocity = Vector3.zero;
+        }
         private void Start()
         {
             
@@ -165,6 +171,7 @@ namespace StudentWork
         public void SnapBackToGround()
         {
             transform.position = lastGroundedPosition;
+            rb.velocity = Vector3.zero;
         }
 
         private void Update()

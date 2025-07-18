@@ -23,7 +23,7 @@ namespace StudentWork
         [Tooltip("GameTimer reference")]
         [SerializeField] private TextMeshProUGUI timerText;
 
-        public float gameTimer {  get; private set; }
+        public float gameTimer;
 
         private void GameTimer()
         {

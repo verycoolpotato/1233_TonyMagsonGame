@@ -8,21 +8,35 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] private GameOverScreen gameOverScreen;
+    [SerializeField] private GameObject Losemenu;
+    [SerializeField] private GameObject pauseMenu;
     [SerializeField] private CharacterManager characterManager;
-    [SerializeField] private LevelManager levelManager;
+    [SerializeField] public LevelManager levelManager;
     [SerializeField] private int lives;
+    [SerializeField] private UI ui;
+
     public bool gameplay;
     private bool paused;
-
+    public bool lockCursor;
 
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Pause();
         }
+        lockCursor = !paused && gameplay ? true : false;
+
+        if (lives <= 0)
+        {
+            
+        }
+        else
+        {
+            
+;        }
+
     }
     private void Awake()
     {
@@ -35,8 +49,6 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
         characterManager.SpawnCharacter();
-
-
 
     }
     public void InitializeGame()
@@ -52,48 +64,63 @@ public class GameManager : MonoBehaviour
 
     public void RestartLevel()
     {
+      
+
         levelManager.UnloadScene("World");
         levelManager.LoadLevelAdditively("World");
+        Pause();
+        Losemenu.SetActive(false);
+        lives = 3;
+        
+        StartCoroutine(enableTimer());
+       
+    }
 
-
+    IEnumerator enableTimer()
+    {
+        gameplay = false;
+      yield return new WaitForSecondsRealtime(0.01f);
+        gameplay = true;
+        
     }
 
     public void LoseLife()
     {
         if (lives <= 0)
         {
-            GameLoseSequence();
+            Losemenu.SetActive(true);
+            paused = true;
         }
         else
         {
+            Losemenu.SetActive(false);
             lives--;
             PlayerLocatorSingleton.Instance.GetComponent<PlayerController>().SnapBackToGround();
         }
     }
 
-    private void GameLoseSequence()
+    
+    public void MainMenu()
     {
-        gameOverScreen.Death();
-
+        Losemenu.SetActive(false);
         gameplay = false;
         levelManager.UnloadScene("World");
-      
         levelManager.LoadLevelAdditively("MainMenu");
     }
-
     public void GameWinSequence()
     {
 
         gameplay = false;
-        levelManager.UnloadScene("World");
-        levelManager.LoadLevelAdditively("MainMenu");
+       MainMenu();
     }
 
     public void Pause()
     {
-       Time.timeScale = paused ? 1 : 0;
 
-       paused = !paused;
+        pauseMenu.SetActive(!paused);
+
+        Time.timeScale = paused ? 1 : 0;
+        paused = !paused;
     }
 
 }
