@@ -23,12 +23,20 @@ namespace StudentWork
         [Tooltip("GameTimer reference")]
         [SerializeField] private TextMeshProUGUI timerText;
 
+        [SerializeField] private TextMeshProUGUI livesText;
+
         public float gameTimer;
+        public bool timerPaused;
 
         private void GameTimer()
         {
-            gameTimer += 1 * Time.deltaTime;
-            timerText.text = gameTimer.ToString("F2");
+            if (!timerPaused)
+            {
+                gameTimer += 1 * Time.deltaTime;
+                timerText.text = gameTimer.ToString("F2");
+            }
+            
+            
         }
 
         private void Update()
@@ -51,6 +59,19 @@ namespace StudentWork
             {
                 knockbackPercentDisplay.color = Color.red;
             }
+        }
+
+        public void updateLivesCount(int lives)
+        {
+            if (lives != 1)
+            {
+                livesText.text = lives.ToString() + " lives";
+            }
+            else
+            {
+                livesText.text = lives.ToString() + " life";
+            }
+            
         }
 
         

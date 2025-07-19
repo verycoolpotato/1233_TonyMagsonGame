@@ -103,11 +103,12 @@ namespace StudentWork
         private int animAxisX;
         private int animAxisZ;
         private int animIDRunning;
+        private int animIDLives;
 
        
 
 #if ENABLE_INPUT_SYSTEM
-        [SerializeField] private PlayerInput playerInput;
+        [SerializeField] public PlayerInput playerInput;
 #endif
       
         [SerializeField] private PlayerInputs input;
@@ -178,6 +179,8 @@ namespace StudentWork
         {
             GroundedCheck();
 
+            
+
             hasAnimator = TryGetComponent(out animator);
 
             AimState(input.Aim);
@@ -193,11 +196,13 @@ namespace StudentWork
 
         private void AssignAnimationIDs()
         {
-            //Add falling animation
+           
 
             animIDRunning = Animator.StringToHash("Running");
             animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
+
+            animIDLives = Animator.StringToHash("Lives");
 
             animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
            
@@ -323,6 +328,8 @@ namespace StudentWork
 
                 animator.SetFloat(animAxisX, inputDirection.x, 0.1f, Time.deltaTime);
                 animator.SetFloat(animAxisZ, inputDirection.z, 0.1f, Time.deltaTime);
+
+                animator.SetInteger(animIDLives, GameManager.instance.lives);
             }
         }
        

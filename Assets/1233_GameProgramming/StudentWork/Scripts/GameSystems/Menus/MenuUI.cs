@@ -24,6 +24,10 @@ public class MenuUI : MonoBehaviour
         GameManager.instance.Pause();
         GameManager.instance.MainMenu();
     }
+    public void nextStage()
+    {
+        Debug.Log("Enter Next Stage");
+    }
     private void GameOverUI()
     {
       
