@@ -522,9 +522,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Rb: {fileID: 2821345355348447653}
-  KnockbackPercentage: 2
+  KnockbackPercentage: 0
   NavMeshAgent: {fileID: 2365620133187888045}
-  RingoutThreshold: 7
+  RingoutThreshold: 99
   KnockbackPercentText: {fileID: 8965156429979443884}
   DamagedAudio: {fileID: 5537820001826672239}
   DeathAudio: {fileID: 1747717583593333036}
@@ -573,7 +573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16bf48d9f53fa164b99ac2d52c6fbe97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockback: 1
+  knockback: 3
 --- !u!1001 &8459099778960750471
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -244,7 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitParticle: {fileID: 3224475533480090618, guid: 91bcff5796b010f489eaafc133eecef3, type: 3}
   SnowballPrefab: {fileID: 4782568924342100054, guid: b9a2088c3369f7a4d9773f5e21ec4a6c, type: 3}
-  ThrowForce: 200
+  ThrowForce: 300
   Input: {fileID: 5607905882524977921}
   Animator: {fileID: 3897532338589654595}
   ThrowPos: {fileID: 309414335116497053}
