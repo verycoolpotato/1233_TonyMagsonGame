@@ -10,19 +10,19 @@ public class MenuUI : MonoBehaviour
     public void pausedUI()
     {
 
-       GameManager.instance.Pause();
+       GameManager.Instance.Pause();
     }
 
     public void restartUI()
     {
 
-        GameManager.instance.RestartLevel();
+        GameManager.Instance.RestartLevel();
     }
 
     public void mainMenu()
     {
-        GameManager.instance.Pause();
-        GameManager.instance.MainMenu();
+        GameManager.Instance.Pause();
+        GameManager.Instance.MainMenu();
     }
     public void nextStage()
     {

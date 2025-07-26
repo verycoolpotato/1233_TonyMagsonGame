@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.Utilities;
 using UnityEngine.Rendering;
 #endif
 
-/* Note: animations are called via the controller for both the character and capsule using animator null checks
+/* Note: animations are called via the controller for both the character and capsule using Animator null checks
  */
 
 namespace StudentWork
@@ -140,7 +140,7 @@ namespace StudentWork
 
         private void OnEnable()
         {
-            knockbackManager.knockbackPercentage = 0;
+            knockbackManager.KnockbackPercentage = 0;
             transform.position = Vector3.zero;
             rb.velocity = Vector3.zero;
         }
@@ -163,7 +163,7 @@ namespace StudentWork
             Grounded = Physics.CheckSphere(spherePosition, 0.1f, groundLayers,
                 QueryTriggerInteraction.Ignore);
 
-            // update animator if using character
+            // update Animator if using character
             if (animator != null)
             {
                 animator.SetBool(_animIDGrounded, Grounded);
@@ -214,10 +214,10 @@ namespace StudentWork
        
         private void CameraRotation()
         {
-            // if there is an input and thirdPersonCamera position is not fixed
+            // if there is an Input and thirdPersonCamera position is not fixed
             if (input.Look.sqrMagnitude >= threshold && !lockCameraPosition)
             {
-                //Don't multiply mouse input by Time.deltaTime;
+                //Don't multiply mouse Input by Time.deltaTime;
                 float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
                 cinemachineTargetYaw += input.Look.x * deltaTimeMultiplier;
@@ -234,7 +234,7 @@ namespace StudentWork
         }
 
 
-        //Swaps to aiming thirdPersonCamera when recieving aim input
+        //Swaps to aiming thirdPersonCamera when recieving aim Input
         private void AimState(bool AimButton)
         {
             aimCamera.SetActive(AimButton);
@@ -250,7 +250,7 @@ namespace StudentWork
 
             animator.SetBool(animIDRunning, input.Sprint);
           
-            // if there is no input, set the target speed to 0
+            // if there is no Input, set the target speed to 0
             if (input.Move == Vector2.zero) targetSpeed = 0.0f;
 
             // a reference to the players current horizontal velocity
@@ -259,7 +259,7 @@ namespace StudentWork
            
 
             float speedOffset = 0.1f;
-            float inputMagnitude = input.analogMovement ? input.Move.magnitude : 1f;
+            float inputMagnitude = input.AnalogMovement ? input.Move.magnitude : 1f;
 
             // accelerate or decelerate to target speed
             if (currentHorizontalSpeed < targetSpeed - speedOffset ||
@@ -279,7 +279,7 @@ namespace StudentWork
                 speed = targetSpeed;
             }
 
-            // normalise input direction
+            // normalise Input direction
             Vector3 inputDirection = new Vector3(input.Move.x, 0.0f, input.Move.y).normalized;
 
 
@@ -306,21 +306,21 @@ namespace StudentWork
 
                
                 
-            // rotate to face input direction relative to thirdPersonCamera position
+            // rotate to face Input direction relative to thirdPersonCamera position
              transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 
         
             Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward  * Time.fixedDeltaTime * speed;
             
 
-            // Apply force if there is input - MAIN MOVEMENT CONTROL
+            // Apply force if there is Input - MAIN MOVEMENT CONTROL
             if (input.Move.x != 0 || input.Move.y != 0)
             {
                 rb.AddForce(targetDirection,ForceMode.Acceleration);
             }
             
 
-            // update animator if using character
+            // update Animator if using character
             if (hasAnimator)
             {
                 animator.SetFloat(animIDSpeed, animationBlend);
@@ -329,7 +329,7 @@ namespace StudentWork
                 animator.SetFloat(animAxisX, inputDirection.x, 0.1f, Time.deltaTime);
                 animator.SetFloat(animAxisZ, inputDirection.z, 0.1f, Time.deltaTime);
 
-                animator.SetInteger(animIDLives, GameManager.instance.lives);
+                animator.SetInteger(animIDLives, GameManager.Instance.Lives);
             }
         }
        

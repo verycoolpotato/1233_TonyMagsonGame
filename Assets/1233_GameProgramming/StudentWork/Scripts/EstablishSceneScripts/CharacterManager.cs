@@ -26,10 +26,10 @@ public class CharacterManager : MonoBehaviour
     }
     private void CharacterActive()
     {
-        Cursor.lockState = GameManager.instance.lockCursor
+        Cursor.lockState = GameManager.Instance.LockCursor
             ? CursorLockMode.Locked : CursorLockMode.None;
 
-        characterInstance.SetActive(GameManager.instance.gameplay);
+        characterInstance.SetActive(GameManager.Instance.Gameplay);
         
     }
 

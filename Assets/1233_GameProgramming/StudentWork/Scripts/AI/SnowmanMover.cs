@@ -45,7 +45,7 @@ public class SnowmanMover : MonoBehaviour
     //Position to move towards
     private Vector3 targetPos;
 
-    //Direction of movement used by animator
+    //Direction of movement used by Animator
     private Vector3 moveDirection;
 
     private float countFrom = 2;

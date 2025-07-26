@@ -7,34 +7,34 @@ namespace StudentWork
     public class ShootingManager : MonoBehaviour
     {
 
-        [SerializeField] GameObject hitParticle;
+        [SerializeField] GameObject HitParticle;
         [Header("Projectile Settings")]
 
         [Tooltip("Primary thrown projectile")]
-        [SerializeField] private GameObject snowballPrefab;
+        [SerializeField] private GameObject SnowballPrefab;
 
         [Tooltip("Projectile throw force (speed)")]
-        [SerializeField] private float throwForce;
+        [SerializeField] private float ThrowForce;
 
-        [Tooltip("Player input reference")]
-        [SerializeField] private PlayerInputs input;
+        [Tooltip("Player Input reference")]
+        [SerializeField] private PlayerInputs Input;
 
         [Tooltip("This Animator")]
-        [SerializeField] private Animator animator;
+        [SerializeField] private Animator Animator;
 
-        [SerializeField] private Transform throwPos;
+        [SerializeField] private Transform ThrowPos;
 
-        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioSource AudioSource;
 
-        [SerializeField] private Camera mainCamera;
+        [SerializeField] private Camera MainCamera;
 
-        private int animIDThrow;
+        private int _animIDThrow;
 
  
 
         private void Awake()
         {
-            animIDThrow = Animator.StringToHash("Throw");
+            _animIDThrow = Animator.StringToHash("Throw");
            
         }
         private void Update()
@@ -45,29 +45,29 @@ namespace StudentWork
         //check if player is pressing aim and shoot, if yes then play animation
         private void CanShoot()
         {
-           if(input.Aim && input.Shoot)
+           if(Input.Aim && Input.Shoot)
             {
-                animator.SetTrigger(animIDThrow);
-                input.Shoot = false;
+                Animator.SetTrigger(_animIDThrow);
+                Input.Shoot = false;
             }
         }
 
         //Called by animation event, allows player to queue next shot
         public void InputQueue()
         {
-            animator.ResetTrigger(animIDThrow);
+            Animator.ResetTrigger(_animIDThrow);
         }
 
         public void ProjectileShot()
         { 
-            Vector3 projectileSpawn = throwPos.position;
+            Vector3 projectileSpawn = ThrowPos.position;
 
             //Instantiate a projectile with name clone at thirdPersonCamera position
-            GameObject Clone = Instantiate(snowballPrefab,projectileSpawn, Quaternion.identity);
+            GameObject Clone = Instantiate(SnowballPrefab,projectileSpawn, Quaternion.identity);
 
-            //Set clone rotation and velocity, speed stored as variable throwForce
-            Clone.transform.rotation = mainCamera.transform.rotation;
-            Clone.GetComponent<Rigidbody>().AddForce(Clone.transform.forward * throwForce, ForceMode.Impulse);
+            //Set clone rotation and velocity, speed stored as variable ThrowForce
+            Clone.transform.rotation = MainCamera.transform.rotation;
+            Clone.GetComponent<Rigidbody>().AddForce(Clone.transform.forward * ThrowForce, ForceMode.Impulse);
 
             //Delete clone after 3 seconds
             Destroy(Clone,3f);
@@ -75,7 +75,7 @@ namespace StudentWork
         }
         public void PlayThrowAudio()
         {
-            audioSource.Play(); 
+            AudioSource.Play(); 
         }
     }
 }

@@ -7,31 +7,31 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager Instance;
 
-    [SerializeField] private TextMeshProUGUI timeText;
-    [SerializeField] private GameObject winMenu;
-    [SerializeField] private GameObject losemenu;
-    [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private CharacterManager characterManager;
-     public LevelManager levelManager;
-     public int lives;
-     private UI ui;
+    [SerializeField] private TextMeshProUGUI TimeText;
+    [SerializeField] private GameObject WinMenu;
+    [SerializeField] private GameObject Losemenu;
+    [SerializeField] private GameObject PauseMenu;
+    [SerializeField] private CharacterManager CharacterManager;
+     public LevelManager LevelManager;
+     public int Lives;
+     private UI _ui;
 
-    public bool gameplay;
-    private bool paused;
-    public bool lockCursor;
+    public bool Gameplay;
+    private bool _paused;
+    public bool LockCursor;
 
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !paused)
+        if (Input.GetKeyDown(KeyCode.Escape) && !_paused)
         {
             Pause();
         }
-        lockCursor = !paused && gameplay ? true : false;
+        LockCursor = !_paused && Gameplay ? true : false;
 
-        if (paused)
+        if (_paused)
         {
             PlayerLocatorSingleton.Instance
                 .GetComponent<PlayerController>().playerInput.enabled = false;
@@ -46,24 +46,24 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
 
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        instance = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
-        characterManager.SpawnCharacter();
-        ui = PlayerLocatorSingleton.Instance.GetComponent<UI>();
+        CharacterManager.SpawnCharacter();
+        _ui = PlayerLocatorSingleton.Instance.GetComponent<UI>();
     }
     public void InitializeGame()
     {
-        lives = 3;
-        ui.updateLivesCount(lives);
-        characterManager.SpawnCharacter();
-        levelManager.UnloadScene("MainMenu");
-        levelManager.LoadLevelAdditively("World");
-        gameplay = true;
+        Lives = 3;
+        _ui.updateLivesCount(Lives);
+        CharacterManager.SpawnCharacter();
+        LevelManager.UnloadScene("MainMenu");
+        LevelManager.LoadLevelAdditively("World");
+        Gameplay = true;
 
     }
 
@@ -71,16 +71,16 @@ public class GameManager : MonoBehaviour
     public void RestartLevel()
     {
       
-        ui.updateLivesCount(lives);
-        levelManager.UnloadScene("World");
-        levelManager.LoadLevelAdditively("World");
+        _ui.updateLivesCount(Lives);
+        LevelManager.UnloadScene("World");
+        LevelManager.LoadLevelAdditively("World");
         Pause();
 
-        winMenu.SetActive(false);
-        losemenu.SetActive(false);
+        WinMenu.SetActive(false);
+        Losemenu.SetActive(false);
 
-        lives = 3;
-        ui.updateLivesCount(lives);
+        Lives = 3;
+        _ui.updateLivesCount(Lives);
         StartCoroutine(enableTimer());
        
     }
@@ -88,39 +88,39 @@ public class GameManager : MonoBehaviour
     //Activates the players OnEnablefunction 
     IEnumerator enableTimer()
     {
-        gameplay = false;
+        Gameplay = false;
       yield return new WaitForSecondsRealtime(0.01f);
-        gameplay = true;
+        Gameplay = true;
         
     }
 
     public void LoseLife()
     {
-        lives--;
+        Lives--;
 
-        if (lives <= 0)
+        if (Lives <= 0)
         {
-            losemenu.SetActive(true);
+            Losemenu.SetActive(true);
             showCurrentTime();
-            paused = true;
+            _paused = true;
         }
         else
         {
-            losemenu.SetActive(false);
+            Losemenu.SetActive(false);
             
             PlayerLocatorSingleton.Instance.GetComponent<PlayerController>().SnapBackToGround();
-            ui.updateLivesCount(lives);
+            _ui.updateLivesCount(Lives);
         }
     }
 
     
     public void MainMenu()
     {
-        winMenu.SetActive(false);
-        losemenu.SetActive(false);
-        gameplay = false;
-        levelManager.UnloadScene("World");
-        levelManager.LoadLevelAdditively("MainMenu");
+        WinMenu.SetActive(false);
+        Losemenu.SetActive(false);
+        Gameplay = false;
+        LevelManager.UnloadScene("World");
+        LevelManager.LoadLevelAdditively("MainMenu");
     }
     public void GameWinSequence()
     {
@@ -128,9 +128,9 @@ public class GameManager : MonoBehaviour
 
        
         
-        winMenu.SetActive(true);
+        WinMenu.SetActive(true);
 
-        paused = true;
+        _paused = true;
         Time.timeScale = 0;
     }
 
@@ -140,18 +140,18 @@ public class GameManager : MonoBehaviour
         showCurrentTime();
         
 
-        pauseMenu.SetActive(!paused);
+        PauseMenu.SetActive(!_paused);
 
-        Time.timeScale = paused ? 1 : 0;
-        paused = !paused;
+        Time.timeScale = _paused ? 1 : 0;
+        _paused = !_paused;
     }
 
     private void showCurrentTime()
     {
-        timeText.text = ui.gameTimer.ToString("F2");
-        timeText.gameObject.SetActive(!paused);
+        TimeText.text = _ui.gameTimer.ToString("F2");
+        TimeText.gameObject.SetActive(!_paused);
 
-        ui.timerPaused = !paused;
+        _ui.timerPaused = !_paused;
     }
 
 }

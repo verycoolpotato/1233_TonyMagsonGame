@@ -8,7 +8,7 @@ public class LevelFinish : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            GameManager.instance.GameWinSequence();
+            GameManager.Instance.GameWinSequence();
         }
     }
 }

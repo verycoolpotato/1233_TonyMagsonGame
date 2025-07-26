@@ -521,13 +521,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0445e29675a520c4ebf0effd2531620c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 2821345355348447653}
-  knockbackPercentage: 0
-  navMeshAgent: {fileID: 2365620133187888045}
-  ringoutThreshold: 100
-  knockbackPercentText: {fileID: 8965156429979443884}
-  damagedAudio: {fileID: 5537820001826672239}
-  deathAudio: {fileID: 1747717583593333036}
+  Rb: {fileID: 2821345355348447653}
+  KnockbackPercentage: 2
+  NavMeshAgent: {fileID: 2365620133187888045}
+  RingoutThreshold: 7
+  KnockbackPercentText: {fileID: 8965156429979443884}
+  DamagedAudio: {fileID: 5537820001826672239}
+  DeathAudio: {fileID: 1747717583593333036}
 --- !u!114 &2407098252663767098
 MonoBehaviour:
   m_ObjectHideFlags: 0

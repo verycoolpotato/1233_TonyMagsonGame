@@ -2730,15 +2730,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c524788e4d5329b4abb134138c1e652b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeText: {fileID: 1210112563}
-  winMenu: {fileID: 1209889792}
-  losemenu: {fileID: 1228584039}
-  pauseMenu: {fileID: 827043420}
-  characterManager: {fileID: 695498580}
-  levelManager: {fileID: 1696856247}
-  lives: 3
-  gameplay: 0
-  lockCursor: 0
+  TimeText: {fileID: 1210112563}
+  WinMenu: {fileID: 1209889792}
+  Losemenu: {fileID: 1228584039}
+  PauseMenu: {fileID: 827043420}
+  CharacterManager: {fileID: 695498580}
+  LevelManager: {fileID: 1696856247}
+  Lives: 3
+  Gameplay: 0
+  LockCursor: 0
 --- !u!224 &1657092142
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2887,7 +2887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}

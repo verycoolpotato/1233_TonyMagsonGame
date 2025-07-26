@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class PlayerKnockbackController : KnockbackManager
 {
-    [SerializeField] private GameObject enemy;
+     
    
     private void OnCollisionEnter(Collision collision)
     {
@@ -14,7 +14,7 @@ public class PlayerKnockbackController : KnockbackManager
 
         if (collision.gameObject.CompareTag("OffMap"))
         {
-            GameManager.instance.LoseLife();
+            GameManager.Instance.LoseLife();
 
         }
     }
@@ -29,7 +29,7 @@ public class PlayerKnockbackController : KnockbackManager
             Damaged(enemy.transform, enemy.knockback * velocity);
 
             //message will be recieved by UI script
-            SendMessage("UpdateKnockbackNumber",Mathf.Round(knockbackPercentage) * 1);
+            SendMessage("UpdateKnockbackNumber",Mathf.Round(KnockbackPercentage) * 1);
 
 
         }

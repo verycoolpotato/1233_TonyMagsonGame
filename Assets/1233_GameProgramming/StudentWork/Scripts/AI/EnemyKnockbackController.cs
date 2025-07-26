@@ -5,16 +5,16 @@ using TMPro;
 
 public class EnemyKnockbackController : KnockbackManager
 {
-    [SerializeField] private NavMeshAgent navMeshAgent;
-    [SerializeField] private float ringoutThreshold = 7f;
+    [SerializeField] private NavMeshAgent NavMeshAgent;
+    [SerializeField] private float RingoutThreshold = 7f;
 
-    [SerializeField] private TextMeshProUGUI knockbackPercentText;
+    [SerializeField] private TextMeshProUGUI KnockbackPercentText;
 
-    [SerializeField] private AudioSource damagedAudio;
+    [SerializeField] private AudioSource DamagedAudio;
 
-    [SerializeField] private AudioSource deathAudio;
+    [SerializeField] private AudioSource DeathAudio;
 
-    private Coroutine reenableCoroutine;
+    private Coroutine _reenableCoroutine;
 
     //Much of the enemy knockback behaviour doesnt work quite as intended - needs revision
 
@@ -41,10 +41,10 @@ public class EnemyKnockbackController : KnockbackManager
         // Get knockback amount
         BulletStat stats = collision.gameObject.GetComponent<BulletStat>();
 
-        damagedAudio.Play();
+        DamagedAudio.Play();
 
         //disable navmesh while being knocked back
-        navMeshAgent.enabled = false;
+        NavMeshAgent.enabled = false;
 
         //perform knockback
         Damaged(collision.transform, stats.knockback);
@@ -52,19 +52,19 @@ public class EnemyKnockbackController : KnockbackManager
         UpdateUI();
 
         // If knockback is over threshold, disable navmesh permanently and unlock constraints
-        if (knockbackPercentage >= ringoutThreshold)
+        if (KnockbackPercentage >= RingoutThreshold)
         {
-            rb.constraints = RigidbodyConstraints.None;
+            Rb.constraints = RigidbodyConstraints.None;
            
 
            
-            deathAudio.Play();
+            DeathAudio.Play();
 
-            knockbackPercentage = 1000;
+            KnockbackPercentage = 1000;
             
             Damaged(collision.transform, stats.knockback);
 
-            knockbackPercentText.text = "";
+            KnockbackPercentText.text = "";
             return;
         }
 
@@ -75,28 +75,28 @@ public class EnemyKnockbackController : KnockbackManager
        
 
         // Only run one coroutine at a time (prevents breaking everything)
-        if (reenableCoroutine != null)
+        if (_reenableCoroutine != null)
         {
-            StopCoroutine(reenableCoroutine);
+            StopCoroutine(_reenableCoroutine);
         }
 
-        reenableCoroutine = StartCoroutine(reenableWhenStopped());
+        _reenableCoroutine = StartCoroutine(reenableWhenStopped());
     }
 
     // Re-enable the NavMeshAgent once the enemy has stopped moving
     private IEnumerator reenableWhenStopped()
     {
-        yield return new WaitUntil(() => rb.velocity.magnitude < 0.2f);
-        navMeshAgent.enabled = true;
+        yield return new WaitUntil(() => Rb.velocity.magnitude < 0.2f);
+        NavMeshAgent.enabled = true;
     }
 
     //updates the enemy percentage counter ("Health bar")
     private void UpdateUI()
     {
-        knockbackPercentText.text = knockbackPercentage.ToString() + "%";
-        if(knockbackPercentage > 70)
+        KnockbackPercentText.text = KnockbackPercentage.ToString() + "%";
+        if(KnockbackPercentage > 70)
         {
-            knockbackPercentText.color = Color.red;
+            KnockbackPercentText.color = Color.red;
         }
     }
 }

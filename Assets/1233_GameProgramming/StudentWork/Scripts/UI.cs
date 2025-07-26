@@ -17,7 +17,7 @@ namespace StudentWork
         [Tooltip("Displays players current knockback percentage")]
         [SerializeField] private TextMeshProUGUI knockbackPercentDisplay;
 
-        [Tooltip("Player input reference")]
+        [Tooltip("Player Input reference")]
         [SerializeField] private PlayerInputs input;
 
         [Tooltip("GameTimer reference")]
@@ -65,7 +65,7 @@ namespace StudentWork
         {
             if (lives != 1)
             {
-                livesText.text = lives.ToString() + " lives";
+                livesText.text = lives.ToString() + " Lives";
             }
             else
             {

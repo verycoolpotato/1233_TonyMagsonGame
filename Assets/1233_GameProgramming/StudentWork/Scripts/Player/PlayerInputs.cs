@@ -16,11 +16,11 @@ namespace StudentWork
 		public bool Shoot;
 
 		[Header("Movement Settings")]
-		public bool analogMovement;
+		public bool AnalogMovement;
 
 		[Header("Mouse Cursor Settings")]
-		public bool cursorLocked = false;
-		public bool cursorInputForLook = false;
+		public bool CursorLocked = false;
+		public bool CursorInputForLook = false;
 
        
 
@@ -32,7 +32,7 @@ namespace StudentWork
 
 		public void OnLook(InputValue value)
 		{
-			if(cursorInputForLook)
+			if(CursorInputForLook)
 			{
 				LookInput(value.Get<Vector2>());
 			}
@@ -86,7 +86,7 @@ namespace StudentWork
 		
 		private void OnApplicationFocus(bool hasFocus)
 		{
-			SetCursorState(cursorLocked);
+			SetCursorState(CursorLocked);
 		}
 
 		private void SetCursorState(bool newState)
