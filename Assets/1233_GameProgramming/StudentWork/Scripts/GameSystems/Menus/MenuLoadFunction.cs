@@ -6,15 +6,12 @@ using UnityEngine.Audio;
 public class MenuLoadFunction : MonoBehaviour
 {
     [SerializeField] private AudioMixer MainAudioMixer;
-    public void StartGame()
-    {
-        Invoke(nameof(timer), 3);
-    }
-    private void timer()
+    public void StartGame(string levelName)
     {
         if (GameManager.Instance != null)
-            GameManager.Instance.InitializeGame();
+            GameManager.Instance.InitializeGame(levelName);
     }
+    
 
     public void QuitGame()
     {
@@ -29,4 +26,7 @@ public class MenuLoadFunction : MonoBehaviour
     {
         MainAudioMixer.SetFloat("MusicVolume", volume);
     }
+    
+
+
 }

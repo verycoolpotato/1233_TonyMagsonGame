@@ -4,9 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private string _currentScene;
+
     public static GameManager Instance;
 
     [SerializeField] private TextMeshProUGUI TimeText;
@@ -16,22 +19,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CharacterManager CharacterManager;
      public LevelManager LevelManager;
      public int Lives;
-     private UI _ui;
+     private UI ui;
 
-    public bool Gameplay;
-    private bool _paused;
-    public bool LockCursor;
+    public bool gameplay;
+    private bool paused;
+    public bool lockCursor;
 
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !_paused)
+       
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !paused)
         {
             Pause();
         }
-        LockCursor = !_paused && Gameplay ? true : false;
+        lockCursor = !paused && gameplay ? true : false;
 
-        if (_paused)
+        if (paused)
         {
             PlayerLocatorSingleton.Instance
                 .GetComponent<PlayerController>().playerInput.enabled = false;
@@ -54,33 +59,37 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         CharacterManager.SpawnCharacter();
-        _ui = PlayerLocatorSingleton.Instance.GetComponent<UI>();
+        ui = PlayerLocatorSingleton.Instance.GetComponent<UI>();
     }
-    public void InitializeGame()
+    public void InitializeGame(string levelName)
     {
+       _currentScene = levelName;
         Lives = 3;
-        _ui.updateLivesCount(Lives);
+        ui.updateLivesCount(Lives);
         CharacterManager.SpawnCharacter();
         LevelManager.UnloadScene("MainMenu");
-        LevelManager.LoadLevelAdditively("World");
-        Gameplay = true;
-
+        LevelManager.LoadLevelAdditively(levelName);
+       
+        gameplay = true;
+        
     }
 
 
     public void RestartLevel()
     {
-      
-        _ui.updateLivesCount(Lives);
-        LevelManager.UnloadScene("World");
-        LevelManager.LoadLevelAdditively("World");
+
+        
+
+        ui.updateLivesCount(Lives);
+        LevelManager.UnloadScene(_currentScene);
+        LevelManager.LoadLevelAdditively(_currentScene);
         Pause();
 
         WinMenu.SetActive(false);
         Losemenu.SetActive(false);
 
         Lives = 3;
-        _ui.updateLivesCount(Lives);
+        ui.updateLivesCount(Lives);
         StartCoroutine(enableTimer());
        
     }
@@ -88,9 +97,9 @@ public class GameManager : MonoBehaviour
     //Activates the players OnEnablefunction 
     IEnumerator enableTimer()
     {
-        Gameplay = false;
+        gameplay = false;
       yield return new WaitForSecondsRealtime(0.01f);
-        Gameplay = true;
+        gameplay = true;
         
     }
 
@@ -102,14 +111,14 @@ public class GameManager : MonoBehaviour
         {
             Losemenu.SetActive(true);
             showCurrentTime();
-            _paused = true;
+            paused = true;
         }
         else
         {
             Losemenu.SetActive(false);
             
             PlayerLocatorSingleton.Instance.GetComponent<PlayerController>().SnapBackToGround();
-            _ui.updateLivesCount(Lives);
+            ui.updateLivesCount(Lives);
         }
     }
 
@@ -118,8 +127,8 @@ public class GameManager : MonoBehaviour
     {
         WinMenu.SetActive(false);
         Losemenu.SetActive(false);
-        Gameplay = false;
-        LevelManager.UnloadScene("World");
+        gameplay = false;
+        LevelManager.UnloadScene(_currentScene);
         LevelManager.LoadLevelAdditively("MainMenu");
     }
     public void GameWinSequence()
@@ -130,7 +139,7 @@ public class GameManager : MonoBehaviour
         
         WinMenu.SetActive(true);
 
-        _paused = true;
+        paused = true;
         Time.timeScale = 0;
     }
 
@@ -140,18 +149,18 @@ public class GameManager : MonoBehaviour
         showCurrentTime();
         
 
-        PauseMenu.SetActive(!_paused);
+        PauseMenu.SetActive(!paused);
 
-        Time.timeScale = _paused ? 1 : 0;
-        _paused = !_paused;
+        Time.timeScale = paused ? 1 : 0;
+        paused = !paused;
     }
 
     private void showCurrentTime()
     {
-        TimeText.text = _ui.gameTimer.ToString("F2");
-        TimeText.gameObject.SetActive(!_paused);
+        TimeText.text = ui.gameTimer.ToString("F2");
+        TimeText.gameObject.SetActive(!paused);
 
-        _ui.timerPaused = !_paused;
+        ui.timerPaused = !paused;
     }
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class MenuUI : MonoBehaviour
@@ -21,6 +22,7 @@ public class MenuUI : MonoBehaviour
 
     public void mainMenu()
     {
+        
         GameManager.Instance.Pause();
         GameManager.Instance.MainMenu();
     }
@@ -28,13 +30,5 @@ public class MenuUI : MonoBehaviour
     {
         Debug.Log("Enter Next Stage");
     }
-    private void GameOverUI()
-    {
-      
-    }
-
-    private void GameWinUI()
-    {
-
-    }
+   
 }

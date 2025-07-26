@@ -11,19 +11,19 @@ public class LevelManager : MonoBehaviour
     {
         LoadLevelAdditively("MainMenu");
     }
-    public void LoadLevel(string LevelName)
+    public void LoadLevel(string levelName)
     {
         
-        SceneManager.LoadScene(LevelName);
+        SceneManager.LoadScene(levelName);
     }
 
-    public void LoadLevelAdditively(string LevelName)
+    public void LoadLevelAdditively(string levelName)
     {
-        SceneManager.LoadScene(LevelName,LoadSceneMode.Additive);
+        SceneManager.LoadScene(levelName,LoadSceneMode.Additive);
     }
-    public void UnloadScene(string LevelName)
+    public void UnloadScene(string levelName)
     {
-        SceneManager.UnloadSceneAsync(LevelName);
+        SceneManager.UnloadSceneAsync(levelName);
     }
 
    
