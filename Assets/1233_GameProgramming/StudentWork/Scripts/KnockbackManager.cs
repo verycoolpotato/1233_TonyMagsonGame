@@ -21,5 +21,5 @@ public class KnockbackManager : MonoBehaviour
         float knockbackForce = 1 + KnockbackPercentage;
         Rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
     }
-
+   
 }

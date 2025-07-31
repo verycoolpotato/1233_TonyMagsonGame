@@ -560,7 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05cc06fadfd931a49a58fef59aa308e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iceChunkObj: {fileID: 2787234184837338282, guid: 19b75f576dccf814e8e65e5e2b9c687b, type: 3}
+  IceChunkObj: {fileID: 2787234184837338282, guid: 19b75f576dccf814e8e65e5e2b9c687b, type: 3}
 --- !u!114 &9003827163003167344
 MonoBehaviour:
   m_ObjectHideFlags: 0

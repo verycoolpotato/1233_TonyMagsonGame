@@ -14,7 +14,7 @@ namespace StudentWork
         [Tooltip("Image that appears in the center of the screen while aiming")]
         [SerializeField] private Image crosshair;
 
-        [Tooltip("Displays players current knockback percentage")]
+        [Tooltip("Displays players current Knockback percentage")]
         [SerializeField] private TextMeshProUGUI knockbackPercentDisplay;
 
         [Tooltip("Player Input reference")]
@@ -39,6 +39,8 @@ namespace StudentWork
             
         }
 
+
+
         private void Update()
         {
 
@@ -51,13 +53,17 @@ namespace StudentWork
             crosshair.enabled = input.Aim;
         }
 
-        //Called by player knockback controller
+        //Called by player Knockback controller
         public void UpdateKnockbackNumber(float percentage)
         {
             knockbackPercentDisplay.text = percentage.ToString() + "%";
             if (percentage > 70)
             {
                 knockbackPercentDisplay.color = Color.red;
+            }
+            else
+            {
+                knockbackPercentDisplay.color = Color.black;
             }
         }
 

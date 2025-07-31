@@ -33,7 +33,7 @@ namespace StudentWork
         [Tooltip("Acceleration and deceleration")]
         public float speedChangeRate = 10.0f;
 
-        [SerializeField] private KnockbackManager knockbackManager;
+        [SerializeField] private PlayerKnockbackController KnockbackManager;
         
         public AudioClip landingAudioClip;
         public AudioClip[] footstepAudioClips;
@@ -80,6 +80,8 @@ namespace StudentWork
 
         [Tooltip("What layers the character uses as ground")]
         public LayerMask groundLayers;
+
+        [SerializeField] private UI UIController;
 
         // cinemachine
         private float cinemachineTargetYaw;
@@ -140,7 +142,8 @@ namespace StudentWork
 
         private void OnEnable()
         {
-            knockbackManager.KnockbackPercentage = 0;
+            UIController.gameTimer = 0;
+            KnockbackManager.ResetKnockback();
             transform.position = Vector3.zero;
             rb.velocity = Vector3.zero;
         }

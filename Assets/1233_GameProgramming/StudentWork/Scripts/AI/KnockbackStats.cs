@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class KnockbackStats : MonoBehaviour
 {
-    [Tooltip("How much knockback does this object apply")]
+    [Tooltip("How much Knockback does this object apply")]
     public float knockback; 
 }

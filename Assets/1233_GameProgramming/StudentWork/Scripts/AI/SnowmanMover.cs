@@ -210,7 +210,7 @@ public class SnowmanMover : MonoBehaviour
         iceObj.SetActive(carryingIce);
     }
    
-    //recieves from enemy knockback manager when hit by projectile
+    //recieves from enemy Knockback manager when hit by projectile
     public void KnockedBack()
     {
         //End idle state

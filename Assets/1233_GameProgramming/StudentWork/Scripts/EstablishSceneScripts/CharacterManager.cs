@@ -5,9 +5,9 @@ using UnityEngine.InputSystem.LowLevel;
 
 public class CharacterManager : MonoBehaviour
 {
-    [SerializeField] private GameObject characterPrefab;
+    [SerializeField] private GameObject CharacterPrefab;
 
-    public GameObject characterInstance;
+    public GameObject CharacterInstance;
     private void Update()
     {
         CharacterActive();
@@ -17,7 +17,7 @@ public class CharacterManager : MonoBehaviour
         Vector3 spawnPosition = Vector3.zero;
         if (PlayerLocatorSingleton.Instance == null)
         {
-            characterInstance = Instantiate(characterPrefab, spawnPosition, Quaternion.identity, transform);
+            CharacterInstance = Instantiate(CharacterPrefab, spawnPosition, Quaternion.identity, transform);
         }
         
           
@@ -29,7 +29,7 @@ public class CharacterManager : MonoBehaviour
         Cursor.lockState = GameManager.Instance.lockCursor
             ? CursorLockMode.Locked : CursorLockMode.None;
 
-        characterInstance.SetActive(GameManager.Instance.gameplay);
+        CharacterInstance.SetActive(GameManager.Instance.gameplay);
         
     }
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6736314507652039927}
   - component: {fileID: 3095978701268066194}
   m_Layer: 5
-  m_Name: Button
+  m_Name: LevelSelectButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Play
+  m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de926166b0671c74bbf61472fa96d5a3, type: 2}
   m_sharedMaterial: {fileID: 2138417471169220057, guid: de926166b0671c74bbf61472fa96d5a3, type: 2}

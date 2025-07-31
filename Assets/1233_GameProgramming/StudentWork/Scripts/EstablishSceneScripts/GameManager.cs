@@ -17,26 +17,27 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Losemenu;
     [SerializeField] private GameObject PauseMenu;
     [SerializeField] private CharacterManager CharacterManager;
-     public LevelManager LevelManager;
-     public int Lives;
-     private UI ui;
-
-    public bool gameplay;
-    private bool paused;
+    public LevelManager LevelManager;
+    public int Lives;
     public bool lockCursor;
+    public bool gameplay;
+
+    private bool _paused;
+    private UI _ui;
+   
 
 
     private void Update()
     {
        
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !paused)
+        if (Input.GetKeyDown(KeyCode.Escape) && !_paused)
         {
             Pause();
         }
-        lockCursor = !paused && gameplay ? true : false;
+        lockCursor = !_paused && gameplay ? true : false;
 
-        if (paused)
+        if (_paused)
         {
             PlayerLocatorSingleton.Instance
                 .GetComponent<PlayerController>().playerInput.enabled = false;
@@ -59,13 +60,13 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         CharacterManager.SpawnCharacter();
-        ui = PlayerLocatorSingleton.Instance.GetComponent<UI>();
+        _ui = PlayerLocatorSingleton.Instance.GetComponent<UI>();
     }
     public void InitializeGame(string levelName)
     {
        _currentScene = levelName;
         Lives = 3;
-        ui.updateLivesCount(Lives);
+        _ui.updateLivesCount(Lives);
         CharacterManager.SpawnCharacter();
         LevelManager.UnloadScene("MainMenu");
         LevelManager.LoadLevelAdditively(levelName);
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour
 
         
 
-        ui.updateLivesCount(Lives);
+        _ui.updateLivesCount(Lives);
         LevelManager.UnloadScene(_currentScene);
         LevelManager.LoadLevelAdditively(_currentScene);
         Pause();
@@ -89,7 +90,7 @@ public class GameManager : MonoBehaviour
         Losemenu.SetActive(false);
 
         Lives = 3;
-        ui.updateLivesCount(Lives);
+        _ui.updateLivesCount(Lives);
         StartCoroutine(enableTimer());
        
     }
@@ -111,14 +112,14 @@ public class GameManager : MonoBehaviour
         {
             Losemenu.SetActive(true);
             showCurrentTime();
-            paused = true;
+            _paused = true;
         }
         else
         {
             Losemenu.SetActive(false);
             
             PlayerLocatorSingleton.Instance.GetComponent<PlayerController>().SnapBackToGround();
-            ui.updateLivesCount(Lives);
+            _ui.updateLivesCount(Lives);
         }
     }
 
@@ -139,7 +140,7 @@ public class GameManager : MonoBehaviour
         
         WinMenu.SetActive(true);
 
-        paused = true;
+        _paused = true;
         Time.timeScale = 0;
     }
 
@@ -149,18 +150,18 @@ public class GameManager : MonoBehaviour
         showCurrentTime();
         
 
-        PauseMenu.SetActive(!paused);
+        PauseMenu.SetActive(!_paused);
 
-        Time.timeScale = paused ? 1 : 0;
-        paused = !paused;
+        Time.timeScale = _paused ? 1 : 0;
+        _paused = !_paused;
     }
 
     private void showCurrentTime()
     {
-        TimeText.text = ui.gameTimer.ToString("F2");
-        TimeText.gameObject.SetActive(!paused);
+        TimeText.text = _ui.gameTimer.ToString("F2");
+        TimeText.gameObject.SetActive(!_paused);
 
-        ui.timerPaused = !paused;
+        _ui.timerPaused = !_paused;
     }
 
 }

@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 public class PlayerKnockbackController : KnockbackManager
 {
      
+
    
     private void OnCollisionEnter(Collision collision)
     {
@@ -25,7 +26,7 @@ public class PlayerKnockbackController : KnockbackManager
         var enemy = collision.gameObject.GetComponent<KnockbackStats>();
         if (enemy != null)
         {
-            //calls the damaged function on the knockback manager
+            //calls the damaged function on the Knockback manager
             Damaged(enemy.transform, enemy.knockback * velocity);
 
             //message will be recieved by UI script
@@ -35,6 +36,10 @@ public class PlayerKnockbackController : KnockbackManager
         }
     }
 
-    
+    public void ResetKnockback()
+    {
+        KnockbackPercentage = 0;
+        SendMessage("UpdateKnockbackNumber", Mathf.Round(KnockbackPercentage) * 1);
+    }
 }
 

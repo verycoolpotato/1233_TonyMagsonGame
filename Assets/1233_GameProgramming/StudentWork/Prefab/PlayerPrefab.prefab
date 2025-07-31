@@ -180,7 +180,7 @@ MonoBehaviour:
   sprintSpeed: 6000
   rotationSmoothTime: 0.12
   speedChangeRate: 10
-  knockbackManager: {fileID: 7054823436935691776}
+  KnockbackManager: {fileID: 7054823436935691776}
   landingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
   footstepAudioClips:
   - {fileID: 8300000, guid: 72f526a6a9890f643a88e85a61c86c8a, type: 3}
@@ -205,6 +205,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 129
+  UIController: {fileID: 3286957681951369187}
   Grounded: 1
   playerInput: {fileID: 4784440941931623613}
   input: {fileID: 5607905882524977921}

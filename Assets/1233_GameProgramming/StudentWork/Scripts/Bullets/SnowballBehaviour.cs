@@ -6,11 +6,11 @@ using UnityEngine;
 public class SnowballBehaviour : BulletStat
 {
 
-    [SerializeField] Rigidbody rb;
-    [SerializeField] GameObject hitParticle;
+    [SerializeField] Rigidbody Rb;
+    [SerializeField] GameObject HitParticle;
     private void OnCollisionEnter(Collision collision)
     {
-        GameObject Clone = Instantiate(hitParticle, transform.position, Quaternion.identity);
+        GameObject Clone = Instantiate(HitParticle, transform.position, Quaternion.identity);
         Destroy(Clone, 1);
         Destroy(gameObject);
     }

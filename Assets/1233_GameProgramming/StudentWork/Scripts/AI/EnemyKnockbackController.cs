@@ -16,7 +16,7 @@ public class EnemyKnockbackController : KnockbackManager
 
     private Coroutine _reenableCoroutine;
 
-    //Much of the enemy knockback behaviour doesnt work quite as intended - needs revision
+    //Much of the enemy Knockback behaviour doesnt work quite as intended - needs revision
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -38,7 +38,7 @@ public class EnemyKnockbackController : KnockbackManager
 
     private void EnemyDamaged(Collision collision)
     {
-        // Get knockback amount
+        // Get Knockback amount
         BulletStat stats = collision.gameObject.GetComponent<BulletStat>();
 
         DamagedAudio.Play();
@@ -46,12 +46,12 @@ public class EnemyKnockbackController : KnockbackManager
         //disable navmesh while being knocked back
         NavMeshAgent.enabled = false;
 
-        //perform knockback
-        Damaged(collision.transform, stats.knockback);
+        //perform Knockback
+        Damaged(collision.transform, stats.Knockback);
 
         UpdateUI();
 
-        // If knockback is over threshold, disable navmesh permanently and unlock constraints
+        // If Knockback is over threshold, disable navmesh permanently and unlock constraints
         if (KnockbackPercentage >= RingoutThreshold)
         {
             Rb.constraints = RigidbodyConstraints.None;
@@ -62,7 +62,7 @@ public class EnemyKnockbackController : KnockbackManager
 
             KnockbackPercentage = 1000;
             
-            Damaged(collision.transform, stats.knockback);
+            Damaged(collision.transform, stats.Knockback);
 
             KnockbackPercentText.text = "";
             return;

@@ -84,15 +84,7 @@ namespace StudentWork
 			Sprint = newSprintState;
 		}
 		
-		private void OnApplicationFocus(bool hasFocus)
-		{
-			SetCursorState(CursorLocked);
-		}
-
-		private void SetCursorState(bool newState)
-		{
-			
-		}
+		
 	}
 	
 }

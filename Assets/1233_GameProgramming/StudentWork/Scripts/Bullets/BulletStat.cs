@@ -6,5 +6,5 @@ public class BulletStat : MonoBehaviour
 {
     //Stores base bullet stats
 
-    [SerializeField] public float knockback;
+    [SerializeField] public float Knockback;
 }
