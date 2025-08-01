@@ -332,7 +332,8 @@ namespace StudentWork
                 animator.SetFloat(animAxisX, inputDirection.x, 0.1f, Time.deltaTime);
                 animator.SetFloat(animAxisZ, inputDirection.z, 0.1f, Time.deltaTime);
 
-                animator.SetInteger(animIDLives, GameManager.Instance.Lives);
+               
+                  animator.SetBool(animIDLives, GameManager.Instance.Lives > 0);
             }
         }
        
