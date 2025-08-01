@@ -6,8 +6,11 @@ using UnityEngine.Audio;
 public class MenuLoadFunction : MonoBehaviour
 {
     [SerializeField] private AudioMixer MainAudioMixer;
+    [SerializeField] private AudioSource UIPop;
     public void StartGame(string levelName)
     {
+        UIPop.Play();
+
         if (GameManager.Instance != null)
             GameManager.Instance.InitializeGame(levelName);
     }
@@ -21,6 +24,8 @@ public class MenuLoadFunction : MonoBehaviour
     public void ChangeSFXVolume(float volume)
     {
         MainAudioMixer.SetFloat("SFXVolume", volume);
+        
+
     }
     public void ChangeMusicVolume(float volume)
     {
