@@ -27,19 +27,23 @@ public class LevelSelectGrid : MonoBehaviour
             GameObject button = UnityEditor.PrefabUtility.InstantiatePrefab(ButtonPrefab) as GameObject;
             if (button != null)
             {
-                button.transform.SetParent(GridParent, false);
-                button.name = $"Level {i + 1}";
-
-                button.GetComponentInChildren<TextMeshProUGUI>().text = (i + 1).ToString();
-
+                
+               
                 // Support Unity UI 
                 Text text = button.GetComponentInChildren<Text>();
                 if (text != null)
                 {
                     text.text = LevelNames[i];
+                   
                 }
+                button.transform.SetParent(GridParent, false);
+                button.name = $"Level {i + 1}";
 
+                button.GetComponentInChildren<TextMeshProUGUI>().text = (i + 1).ToString();
+
+                button.GetComponent<AssignEvents>().LevelNumber = (i+1).ToString();
                 
+
             }
         }
 
