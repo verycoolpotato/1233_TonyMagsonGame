@@ -1,11 +1,14 @@
+
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor.Events;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
+
+using UnityEditor.Events;
+
+using UnityEngine.EventSystems;
 
 
 [ExecuteInEditMode]
@@ -17,9 +20,10 @@ public class AssignEvents : MonoBehaviour
     [SerializeField] EventTrigger OnHover;
     public string LevelNumber;
 
+
     private void Awake()
     {
-        //Automatocally fills out the events on the ThisButton
+        //Automatically fills out the events on the ThisButton
 
         _loadGame = GameObject.Find("LoadGame");
         EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -37,6 +41,12 @@ public class AssignEvents : MonoBehaviour
     {
         MenuLoadFunction StartGameFunction = _loadGame.GetComponent<MenuLoadFunction>();
         UnityEventTools.AddStringPersistentListener(ThisButton.onClick, StartGameFunction.StartGame, "Level" + LevelNumber);
+
+        //tell unity to save changes made by this script
+        UnityEditor.EditorUtility.SetDirty(this);
+        UnityEditor.EditorUtility.SetDirty(ThisButton);
+        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
     }
-    
+
 }
+#endif
